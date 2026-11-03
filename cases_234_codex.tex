@@ -1,0 +1,3072 @@
+% !TeX TXS-program:bibliography = txs:///biber
+% !BIB program = biber
+\documentclass[11pt,letterpaper]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=1.03in]{geometry}
+\usepackage{xcolor}
+\usepackage{tikz}
+\definecolor{DarkTurquoise}{HTML}{006D77}
+\definecolor{ReferenceViolet}{HTML}{6F2DA8}
+\usepackage[
+  backend=biber,
+  style=alphabetic,
+  sorting=nyt,
+  giveninits=true,
+  maxbibnames=99,
+  doi=false,
+  isbn=false,
+  url=false,
+  eprint=false
+]{biblatex}
+\addbibresource{cases_234_codex.bib}
+\AtBeginBibliography{\setlength{\emergencystretch}{2em}}
+\usepackage{xurl}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=DarkTurquoise,
+  citecolor=ReferenceViolet,
+  urlcolor=DarkTurquoise,
+  pdfauthor={Pablo Portilla Cuadrado},
+  pdftitle={Injective holomorphic map germs of low order}
+}
+\usepackage{aliascnt}
+\usepackage[capitalise,nameinlink,noabbrev]{cleveref}
+
+\numberwithin{equation}{section}
+\newaliascnt{theorem}{equation}
+\newtheorem{theorem}[theorem]{Theorem}
+\aliascntresetthe{theorem}
+\newaliascnt{proposition}{equation}
+\newtheorem{proposition}[proposition]{Proposition}
+\aliascntresetthe{proposition}
+\newaliascnt{lemma}{equation}
+\newtheorem{lemma}[lemma]{Lemma}
+\aliascntresetthe{lemma}
+\newaliascnt{corollary}{equation}
+\newtheorem{corollary}[corollary]{Corollary}
+\aliascntresetthe{corollary}
+\theoremstyle{remark}
+\newaliascnt{remark}{equation}
+\newtheorem{remark}[remark]{Remark}
+\aliascntresetthe{remark}
+\theoremstyle{plain}
+
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\ord}{\operatorname{ord}}
+\newcommand{\mult}{\operatorname{mult}}
+
+\title{Injective analytic mappings of low order}
+\author{Pablo Portilla Cuadrado}
+\date{\today}
+
+\AtBeginDocument{
+  \setlength{\abovedisplayskip}{9pt plus 3pt minus 6pt}
+  \setlength{\belowdisplayskip}{9pt plus 3pt minus 6pt}
+}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+Let $\boldsymbol n:(\C^2,0)\to(\C^3,0)$ be a holomorphic map germ
+admitting an injective representative.  We prove that
+$(d\boldsymbol n)_0\neq0$, as conjectured by L\^e.
+Building on the author's earlier reduction theorem
+\cite{PortillaReduction}, this work completes the proof of the conjecture by
+excluding maps of orders $2$, $3$, and $4$.
+The proofs combine successive analytic changes of source and target
+coordinates, Weierstrass preparation, and the analysis of weighted
+initial forms with techniques from singularity theory, including
+semicontinuity of the spectrum. In dialogue with the author, ChatGPT
+developed most of the mathematical ideas, repaired a gap in the author's
+initial argument for order $4$, and wrote most of the manuscript subsequently 
+refined by the author.
+\end{abstract}
+
+\section{Introduction}
+
+Let
+\[
+ \boldsymbol n:(\C^2,0)\longrightarrow(\C^3,0),\qquad
+ (x,y)\longmapsto(n_1(x,y),n_2(x,y),n_3(x,y))
+\]
+be a holomorphic map germ admitting an injective representative.
+Its \emph{order} is
+$
+ m_{\boldsymbol n}=\ord_0(\boldsymbol n)
+ =\min_{1\leq j\leq3}\ord_0(n_j).
+$
+The reduction theorem \cite[Theorem~1.1]{PortillaReduction} states that
+$(d\boldsymbol n)_0=0$ implies
+$m_{\boldsymbol n}\in\{2,3,4\}$.  The purpose of this paper is to
+exclude these three orders and thereby prove L\^e's conjecture.
+We refer to the introduction of
+\cite{PortillaReduction} for the geometric formulation in terms of
+links of reduced surface germs, the equivalence of the two formulations,
+and the history of the problem.
+
+\begin{theorem}
+\label{thm:main}
+Every holomorphic map germ
+$
+ \boldsymbol n:(\C^2,0)\longrightarrow(\C^3,0)
+$
+that admits an injective representative satisfies
+$(d\boldsymbol n)_0\neq0$.
+\end{theorem}
+
+\subsection*{Strategy and organization of the proof}
+\label{sec:strategy}
+
+Suppose that $(d\boldsymbol n)_0=0$.  Choose linear coordinates on
+the target as in \Cref{sec:input}, and write
+$\boldsymbol n=(v,u,w)$ in these coordinates, so that $(v,u)$ is finite.
+Put $X=\boldsymbol n(\C^2)$, $V=\{v=0\}$,
+$m_{\boldsymbol n}\in\{2,3,4\}$, and $m_X=\mult_0(X)$.
+The geometric question is whether the third coordinate can distinguish
+all the points with the same first two coordinates.
+
+To see this on a curve, choose $\delta>0$ sufficiently small and then
+$\eta>0$, and put $\overline D_\delta=\{z\in\C:|z|\leq\delta\}$.
+For $0<|s|<\eta$, choose a Milnor representative
+$V_s$ of $\{v=s\}$ so that
+\[
+ u:V_s\longrightarrow\overline D_\delta,\qquad p\longmapsto u(p)
+\]
+is a proper branched covering of degree $m_X$, unramified on the
+boundary, as in \cite[proof of Proposition~2.16]{PortillaReduction}.
+This is the covering used to obtain the upper bound on transverse
+multiplicity in the reduction theorem.  Write $W_s=\boldsymbol n(V_s)$
+for the corresponding representative of the target section.  On $V_s$,
+the map $\boldsymbol n$ is
+\[
+ \boldsymbol n|_{V_s}:V_s\longrightarrow W_s,\qquad
+ p\longmapsto(s,u(p),w(p)).
+\]
+For $p,q\in V_s$, the first coordinates agree.  Consequently,
+\begin{equation}
+ \boldsymbol n(p)=\boldsymbol n(q)
+ \quad\Longleftrightarrow\quad
+ u(p)=u(q)\ \text{and}\ w(p)=w(q).
+ \label{eq:strategy-separation}
+\end{equation}
+Thus injectivity requires $w$ to take distinct values at every pair of
+distinct points in a fiber of $u|_{V_s}$.
+We call a pair of distinct points with the same image under a map
+a \emph{collision} of that map.
+The same requirement applies to every fiber of the finite map $(v,u)$.
+
+The proof develops this separation requirement in three steps.
+\begin{enumerate}
+\item \label{step:ramification}
+\emph{Count the ramification and prepare a critical component.}
+Writing $\mu(V,0)$ for the Milnor number of $V$, the Riemann--Hurwitz
+formula gives total ramification $m_X+\mu(V,0)-1$ for $u|_{V_s}$.
+Choose a component $\Gamma_i$ of the critical locus whose image has
+maximal transverse multiplicity $m_{\mathrm{tr}}$, and put
+$a_i=i_0(v,\Gamma_i)$, as in \Cref{sec:input}.
+The numerical inequalities and base-point formulas yield
+\Cref{prop:common-preparation}: $\Gamma_i$ is smooth and
+$a_i=m_{\boldsymbol n}$.
+The component $\Gamma_i$ meets $V_s$ in $a_i$ points.  At each of them
+the image has a transverse branch of multiplicity $m_{\mathrm{tr}}$,
+so the local degree of $u$ is at least $m_{\mathrm{tr}}$.
+These points contribute at least $a_i(m_{\mathrm{tr}}-1)$ to the
+total ramification, giving
+\[
+ a_i(m_{\mathrm{tr}}-1)\leq m_X+\mu(V,0)-1.
+\]
+The same transverse multiplicity forces the Jacobian minors of
+$\boldsymbol n$ to vanish to order at least $m_{\mathrm{tr}}-1$
+along $\Gamma_i$.
+
+\item \label{step:root-separation}
+\emph{Determine the first separation of the roots.}
+Make $\Gamma_i$ the axis $y=0$ and write $V$ as the zero set of a
+Weierstrass polynomial of degree $m_{\boldsymbol n}$ in $x$, with the
+roots translated so that their mean is zero.  Rescale at the first order
+at which its roots separate as $y\to0$.  The resulting weighted
+initial forms must satisfy both the numerical inequalities and
+the divisibility of the Jacobian minors from
+Step~\ref{step:ramification}.  These restrictions exclude order four
+in \Cref{sec:dfour}.  In order three they leave two possible pairs
+of initial forms.  Order two requires a further analytic preparation.
+Here $m_{\boldsymbol n}$ counts the roots of the Weierstrass equation.  The covering
+$u|_{V_s}$ has degree $m_X$, which can be much larger.
+
+\item \label{step:third-coordinate}
+\emph{Show that the third coordinate fails to separate a pair.}
+For the remaining orders, study pairs of points with the same first
+two coordinates and the difference of their third coordinates.
+Subtracting a function of the first two coordinates does not change
+this difference.  When the first two initial forms define a finite
+map, \Cref{lem:filtered-escape} uses such subtractions to expose a
+third initial form outside their polynomial algebra.
+The fiber products of the pairs of initial forms describe the pairs
+of points that the third initial form must separate.  In order three,
+symmetries and a derivative identity force equal third-coordinate values at distinct
+points.  In the other
+projective curve arguments, the difference is a section whose zeros
+are counted with multiplicity, and the bounds prevent all its zeros
+from lying on the diagonal.  An isolated zero corresponding to
+distinct points lifts, by \Cref{lem:weighted-lifting}, to collisions
+of the analytic map arbitrarily close to the origin.
+Order two also uses a local fiber product disjoint from the diagonal.
+Injectivity would confine the zeros of the third-coordinate difference
+to its limiting fiber.  A second rescaling shows that this constraint
+forces a collision.
+Each collision violates \eqref{eq:strategy-separation}.
+\end{enumerate}
+
+\Cref{sec:auxiliary} establishes the common preparation, the weighted
+estimates, and the lifting criterion used in these steps.  The three
+subsequent sections carry out these steps in orders four, three, and two,
+respectively.
+
+\subsection*{AI disclosure}
+
+This paper was essentially written by ChatGPT,
+through several conversations and extended, largely autonomous work in
+dialogue with the author. ChatGPT developed the proofs for
+$m_{\boldsymbol n}=2,3,4$, including the repair of a gap in the author's
+initial argument for $m_{\boldsymbol n}=4$. The author's contribution to this 
+paper has consisted primarily of
+refining and substantially shortening the generated text, organizing
+the ideas, and reviewing and verifying the arguments. The author takes
+responsibility for all the arguments in the final manuscript.
+
+The proofs below rely, sometimes, on the results of the companion manuscript
+\emph{A reduction theorem for L\^e's conjecture}
+\cite{PortillaReduction} which was part of the prompt that ChatGPT used to 
+solve these cases. In the course of this work, we have not yet
+found a proof of the cases $m_{\boldsymbol n}=2,3,4$ that does not rely
+on that work.
+
+Although the proofs of the three cases are presented in a common
+framework, some auxiliary results remain specific to individual cases.
+Examples include \Cref{prop:d3-cubic-collision,prop:d2-cyclic-separation}.
+The proof of \Cref{prop:d2-cyclic-separation} is long because its steps
+depend closely on the particular form of the map. This dependence makes
+it difficult to divide the proof into shorter arguments that can be
+reused elsewhere in the paper. There are others like this.
+
+We draw special attention to \Cref{lem:d2-forbidden-splitting}, whose proof
+uses semicontinuity of the spectrum and whose statement will trap a specialist 
+in plane curve singularities an afternoon or two. We have not found an 
+elementary
+proof of this lemma.
+
+\section{Input from the reduction theorem}
+\label{sec:input}
+
+
+We use the notation of the reduction theorem.  Throughout the proof, let
+$\boldsymbol n=(n_1,n_2,n_3):(\C^2,0)\to(\C^3,0)$ be a holomorphic
+map germ admitting an injective representative and satisfying
+$(d\boldsymbol n)_0=0$.  Write $(X,0)$ for its reduced image germ.
+We fix an injective representative of $\boldsymbol n$ and a compatible
+representative of $X$, denoted by the same symbols.  Choose coordinates
+$(x,y)$ on $(\C^2,0)$ and put
+\[
+ B=\C\{x,y\},\qquad \mathfrak m=(x,y)B,\qquad
+ I=(n_1,n_2,n_3)B,\qquad m_{\boldsymbol n}=\ord_0 I.
+\]
+The map $\boldsymbol n:(\C^2,0)\to(X,0)$ is the normalization map, and
+$I$ is $\mathfrak m$-primary.  Starting with $I$, at each blowup we
+pull back local generators of the current ideal and divide them by
+their highest common power of a local equation of the new exceptional
+curve.  The ideal generated by these quotients is the new
+\emph{weak transform}.  We blow up the points where this ideal is not
+the unit ideal, and stop when it is the unit ideal.  This is the
+\emph{principalization} used in the reduction theorem.
+Let $\mathcal C$ be the set of
+centres of these blowups, called the \emph{cluster of base points}, and
+let $m_{\boldsymbol n,p}$ be the order of the weak transform at $p$,
+as in \cite[Notation~2.4]{PortillaReduction}.
+For $f,g\in B$, write $J(f,g)=f_xg_y-f_yg_x$ for their
+\emph{Jacobian determinant}
+with respect to $(x,y)$.  For other coordinates $(s,t)$, we write
+$J_{s,t}(f,g)=f_sg_t-f_tg_s$.
+The subscript records the differentiation variables in order, so
+$J_{t,s}(f,g)=-J_{s,t}(f,g)$.
+For $f,g\in B$ whose zero sets have no common curve component, their
+\emph{intersection multiplicity} at the origin is
+\[
+ i_0(f,g)=\dim_\C B/(f,g)B.
+\]
+For $f\in B$ and a reduced plane curve germ $\Gamma\subset(\C^2,0)$
+having no component in $\{f=0\}$, choose a reduced equation $h=0$ for $\Gamma$
+and set $i_0(f,\Gamma)=i_0(f,h)$.
+
+Choose general linear forms $\lambda_1,\lambda_2$ on the target as in
+\cite[Sections~2.1--2.2]{PortillaReduction}, and complete them to target
+coordinates with a third linear form $\lambda_3$.  Put
+$v=\lambda_1\circ\boldsymbol n$, $u=\lambda_2\circ\boldsymbol n$,
+and $w=\lambda_3\circ\boldsymbol n$.
+Thus $V=\{v=0\}$
+is reduced, its strict transform has multiplicity
+$m_{\boldsymbol n,p}$ at each $p\in\mathcal C$, and its final
+strict transform is smooth, transverse to the exceptional divisor,
+and disjoint from its crossings.  There are no infinitely near
+singular points of $V$ outside $\mathcal C$.  Moreover,
+$\{v=u=0\}=\{0\}$, and $u$ has minimal order on each branch
+of $V$ among the elements of $I$.
+Write $W=X\cap\{\lambda_1=0\}$, and denote the \emph{delta invariant}
+and \emph{Milnor number} of a reduced plane curve germ by $\delta$ and
+$\mu$, respectively, following
+\cite[p.~206 and Definition~I.2.1]{GreuelLossenShustin}.
+Let $b$ be the number of branches of $V$, let
+$m_X=\mult_0(X)=\mult_0(W)$, and put
+$M_{\boldsymbol n}=m_X-2\delta(V,0)$.
+
+Write $\Sigma=\operatorname{Sing}(X)=\bigcup_{i=1}^c\Sigma_i$
+for the decomposition into irreducible components, and put
+$\Gamma_i=(\boldsymbol n^{-1}(\Sigma_i))_{\mathrm{red}}$.
+The curves $\Gamma_i$ are the irreducible components of the critical
+locus of $\boldsymbol n$.  As in the reduction theorem, the
+\emph{transverse multiplicity} $m_i$ along $\Sigma_i$ is the multiplicity
+of a transverse plane branch of $X$ at a general point of $\Sigma_i$.  Set
+\[
+ a_i=i_0(v,\Gamma_i),\qquad m_{\mathrm{tr}}=\max_i m_i\geq2.
+\]
+We also choose $v$ so that the final strict transform of $V$ avoids the
+strict transforms of the finitely many $\Gamma_i$ over the origin.
+The strict transforms of the $\Gamma_i$ meet the exceptional divisor
+in finitely many points.  After dividing by their common exceptional
+factors, the pullbacks of $n_1,n_2,n_3$ have no common zero.  Thus
+requiring the strict transform of $V$ to pass through any one of these
+points imposes a nontrivial linear equation on the coefficients of
+$\lambda_1$.
+A general choice of $v$ avoids all these conditions. We use the following 
+identities from
+\cite[equations~(2.18)--(2.19)]{PortillaReduction}:
+\begin{equation}
+ m_X=\sum_{p\in\mathcal C}m_{\boldsymbol n,p}^2,\qquad
+ M_{\boldsymbol n}=\sum_{p\in\mathcal C}m_{\boldsymbol n,p}.
+ \label{eq:input-point-basis}
+\end{equation}
+The same choice of $v,u$ gives
+\begin{equation}
+ i_0(v,u)=m_X,\qquad
+ 2\delta(V,0)=m_X-M_{\boldsymbol n}.                 \label{eq:input-point}
+\end{equation}
+The reduction inequalities
+\cite[Propositions~2.16 and~2.17, Theorem~4.5]{PortillaReduction} are
+\begin{align}
+ M_{\boldsymbol n}&\geq m_{\boldsymbol n},&
+ m_X&\leq m_{\boldsymbol n}M_{\boldsymbol n},          \label{eq:input-resolution}\\
+ M_{\boldsymbol n}&\leq m_{\mathrm{tr}},&
+ m_X+M_{\boldsymbol n}&\leq3m_{\mathrm{tr}},            \label{eq:input-knot}\\
+ \sum_i a_i(m_i-1)&\leq2m_X-M_{\boldsymbol n}-b.        \label{eq:input-polar}
+\end{align}
+The plane curve identity $\mu=2\delta-b+1$
+\cite[Proposition~I.3.35]{GreuelLossenShustin}, applied to $(V,0)$, gives
+\begin{equation}
+ m_X-M_{\boldsymbol n}=\mu(V,0)+b-1.                 \label{eq:input-milnor}
+\end{equation}
+The polar bound \eqref{eq:input-polar} is the ramification count in
+Step~\ref{step:ramification} of the \hyperref[sec:strategy]{strategy}.
+For the covering $u:V_s\to\overline D_\delta$ described there,
+Riemann--Hurwitz and \eqref{eq:input-milnor} give total ramification
+$m_X+\mu(V,0)-1=2m_X-M_{\boldsymbol n}-b$.
+The $a_i$ points of $V_s\cap\Gamma_i$ each contribute at least
+$m_i-1$.  Summing these contributions gives \eqref{eq:input-polar}.
+The polar bound constrains the first two coordinates $v,u$.  By
+\eqref{eq:strategy-separation}, the third coordinate $w$ must take
+different values at distinct points with the same values of $v,u$.
+
+Choose reduced equations $h_i=0$ for the curves $\Gamma_i$.  The
+transverse multiplicities $m_i$ along $\Sigma_i$ give
+\begin{equation}
+ \prod_i h_i^{m_i-1}\mid J(n_j,n_k)
+ \qquad(1\leq j<k\leq3).                               \label{eq:input-divisor}
+\end{equation}
+Indeed, at a general point of $\Gamma_i$, take source coordinates
+$(s,z)$ and target coordinates in which
+$\boldsymbol n=(s,a(s,z),c(s,z))$ and $\Gamma_i=\{z=0\}$.
+The series $a(s,z)-a(s,0)$ and $c(s,z)-c(s,0)$ have
+$z$-order at least $m_i$, so all three Jacobian minors of
+$\boldsymbol n$ are divisible by $z^{m_i-1}$.  The orders of these
+minors along the irreducible curves $\Gamma_i$, together with unique
+factorization in $B$, prove \eqref{eq:input-divisor}.
+
+Choose $i$ with $m_i=m_{\mathrm{tr}}$.  We next bound
+$a_i=i_0(v,\Gamma_i)$.  This bound will imply that $\Gamma_i$ is smooth
+when $\boldsymbol n$ has order three or four.  The local intersection
+inequality and \eqref{eq:input-polar} give
+\begin{equation}
+ a_i\geq m_{\boldsymbol{n}},\qquad
+ a_i(m_{\mathrm{tr}}-1)
+ \leq2m_X-M_{\boldsymbol{n}}-b.                        \label{eq:one-polar}
+\end{equation}
+
+\begin{lemma}
+\label{lem:maximal-component-estimate}
+Suppose that $m_{\boldsymbol{n}}\in\{3,4\}$.  For every index $i$ with
+$m_i=m_{\mathrm{tr}}$, one has $a_i\leq4$.  If $a_i=4$, then
+\begin{equation}
+ 2m_X\geq7M_{\boldsymbol{n}}+3b-12.                    \label{eq:maximal-component-four}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+If $a_i\geq5$, then \eqref{eq:input-knot} and \eqref{eq:one-polar} give
+\[
+ 5\left(\frac{m_X+M_{\boldsymbol{n}}}{3}-1\right)
+ \leq2m_X-M_{\boldsymbol{n}}-b,
+\]
+and therefore, by \eqref{eq:input-resolution} and $b\geq1$,
+\[
+ \begin{aligned}
+ 0&\leq m_X-8M_{\boldsymbol n}+15-3b\\
+  &\leq(m_{\boldsymbol n}-8)M_{\boldsymbol n}+12\\
+  &\leq(m_{\boldsymbol n}-8)m_{\boldsymbol n}+12<0.
+ \end{aligned}
+\]
+The last expression is $-3$ when $m_{\boldsymbol n}=3$ and $-4$
+when $m_{\boldsymbol n}=4$.
+Thus $a_i\leq4$. If $a_i=4$, \eqref{eq:input-knot} and
+\eqref{eq:one-polar} give
+\[
+ 4\left(\frac{m_X+M_{\boldsymbol{n}}}{3}-1\right)
+ \leq4(m_{\mathrm{tr}}-1)
+ \leq2m_X-M_{\boldsymbol{n}}-b,
+\]
+which is equivalent to \eqref{eq:maximal-component-four}.
+\end{proof}
+
+The reduction theorem \cite[Theorem~1.1]{PortillaReduction} gives
+$m_{\boldsymbol{n}}\in\{2,3,4\}$.
+
+\section{Common preparation and auxiliary lemmas}
+\label{sec:auxiliary}
+
+We choose coordinates, bound weighted orders, and prove a criterion
+for noninjectivity, following the three steps of the
+\hyperref[sec:strategy]{strategy}.  A smooth component
+of the critical locus with no common tangent with $V$ provides the axis
+required in Step~\ref{step:ramification}.  Taking this component as an
+axis expresses the divisibility of the Jacobian minors as divisibility
+by a power of its defining coordinate.  The base points give lower bounds for the orders of the
+coefficients of a Weierstrass polynomial defining $V$, whose roots
+determine the weights for Step~\ref{step:root-separation}.
+\Cref{prop:common-preparation} establishes these coordinates before
+we introduce the weighted estimates.  For
+Step~\ref{step:third-coordinate}, \Cref{lem:weighted-lifting} proves that
+an isolated collision of the initial forms implies noninjectivity
+of the analytic map.
+
+\subsection{Base points and branch counts}
+
+We call $p$ the \emph{predecessor} of $q$ if $q$ lies on the
+exceptional curve immediately after blowing up $p$.
+An infinitely near point $q$ is \emph{proximate} to $p$, written
+$q\to p$, if it lies on the strict transform of the exceptional
+curve created by blowing up $p$.  A point other than the origin is \emph{free} if it
+is proximate to one point, and \emph{satellite} if it is proximate to two.
+For a base point $p\in\mathcal C$, put
+\[
+ \rho_p=m_{\boldsymbol{n},p}
+ -\sum_{q\to p}m_{\boldsymbol{n},q}.
+\]
+The proximity inequalities give $\rho_p\geq0$
+\cite[Corollary~7.2.14]{CasasAlvero}.  For a curve germ $\Gamma$,
+its \emph{path through the cluster} is the set of points $p\in\mathcal C$
+through which its successive strict transforms pass.  For $1\leq j\leq m_{\boldsymbol n}$, put
+\begin{equation}
+ A_j=\#\{p\in\mathcal C:m_{\boldsymbol n,p}=j\}.
+ \label{eq:base-point-counts}
+\end{equation}
+For coordinates $(x,y)$ and a positive rational number $\alpha$,
+define the weighted order
+\[
+ \nu_\alpha\left(\sum_{i,j\geq0}h_{ij}x^iy^j\right)
+ =\min_{h_{ij}\neq0}(\alpha i+j),\qquad \nu_\alpha(0)=\infty.
+\]
+The next lemma counts the branches of $V$, describes the base points
+$p\in\mathcal C$ with $m_{\boldsymbol n,p}=m_{\boldsymbol n}$, and
+computes intersection multiplicities with smooth curves.
+
+\begin{lemma}
+\label{lem:cluster}
+One has
+\begin{equation}
+ b=m_{\boldsymbol{n}}
+ -\sum_{\substack{q\in\mathcal C\\q\text{ satellite}}}
+  m_{\boldsymbol{n},q}.                               \label{eq:branch-count}
+\end{equation}
+The base points satisfying $m_{\boldsymbol n,p}=m_{\boldsymbol n}$
+can be ordered as $p_0=0,p_1,\ldots,p_r$, where each $p_{j+1}$ lies
+on the exceptional curve created by blowing up $p_j$ and on no other
+exceptional curve.  There are coordinates in which
+\begin{equation}
+\nu_{A_{m_{\boldsymbol n}}}(h)\geq m_{\boldsymbol n}A_{m_{\boldsymbol n}}\qquad(h\in I).         \label{eq:chain-value}
+\end{equation}
+Let $\Gamma$ be a smooth branch having no common component with
+$V$, and suppose that their strict transforms after principalization
+of $I$ do not meet over the origin.  Then
+\begin{equation}
+ i_0(v,\Gamma)=m_{\boldsymbol{n}}+
+ \sum_{\substack{p\neq0\text{ on the path}\\
+                  \text{followed by }\Gamma}}
+                  m_{\boldsymbol{n},p}.                \label{eq:path-intersection}
+\end{equation}
+Every point on this path other than the origin is free.
+\end{lemma}
+
+\begin{proof}
+After principalization of $I$, the intersection number of the strict
+transform of $V$ with the strict transform of the exceptional curve
+created at $p$ is $\rho_p$.  Our choice
+of $v$ in \Cref{sec:input} makes these intersections transverse and
+disjoint from crossings of the exceptional divisor.  Hence $b=\sum_p\rho_p$.
+In this sum, each $m_{\boldsymbol n,q}$ with $q\neq0$ is subtracted
+once at the predecessor of $q$, and once more if $q$ is satellite.
+This proves \eqref{eq:branch-count}.
+
+The integers $m_{\boldsymbol n,p}$ do not increase along a sequence
+of blowups.  The proximity inequality at $p$ permits at most one
+point $q$ with predecessor $p$ and $m_{\boldsymbol n,q}=m_{\boldsymbol n}$.
+If such a point exists, then $m_{\boldsymbol n,p}=m_{\boldsymbol n}$ as well.
+This point $q$ cannot be satellite.  Otherwise, both $q$ and its
+predecessor $p$ would be proximate to an earlier point $p'$, whose
+proximity inequality would give
+$m_{\boldsymbol n,p'}\geq m_{\boldsymbol n,p}+m_{\boldsymbol n,q}=2m_{\boldsymbol n}$.
+This contradicts $m_{\boldsymbol n,p'}\leq m_{\boldsymbol n}$.
+Thus the base points $p$ with $m_{\boldsymbol n,p}=m_{\boldsymbol n}$
+can be listed as $p_0=0,p_1,\ldots,p_r$, with $p_j$ the predecessor
+of $p_{j+1}$ and each $p_{j+1}$ free.
+Choose coordinates $(x,y)$ so that the successive strict transforms
+of the smooth curve $x=0$ pass through $p_0,\ldots,p_r$ and $y=0$ is
+transverse to $x=0$.  The successive blowup charts give
+$y^{-m_{\boldsymbol n}A_{m_{\boldsymbol n}}}h(y^{A_{m_{\boldsymbol n}}}X,y)\in\C\{X,y\}$ for every
+$h\in I$, proving \eqref{eq:chain-value}.  Finally, the blowup
+formula for intersection multiplicity, iterated along the smooth
+branch $\Gamma$, gives \eqref{eq:path-intersection}.  The intersection
+contribution from the strict transforms of $V$ and $\Gamma$ after
+principalization vanishes by the disjointness assumption.
+After each blowup on the smooth branch $\Gamma$, its strict transform
+meets the new exceptional curve transversely away from the older
+exceptional curves.  Hence every point on the path of $\Gamma$ other than the origin
+is free.
+\end{proof}
+
+\subsection{A common preparation for the three orders}
+
+The ramification bound \eqref{eq:one-polar} controls how many points
+of a nearby fiber $V_s$ of $v$ can lie on a component $\Gamma_i$
+with $m_i=m_{\mathrm{tr}}$.  We now
+use the cluster formulas to show that this component is smooth and
+meets $V$ with intersection multiplicity $m_{\boldsymbol n}$.
+This completes Step~\ref{step:ramification} and provides the
+coordinates for the root separation in Step~\ref{step:root-separation}.
+
+We call a monic polynomial of degree $m_{\boldsymbol n}$ in $x$
+\emph{centered} if its coefficient of $x^{m_{\boldsymbol n}-1}$
+vanishes.  Equivalently, its roots, counted with multiplicity, have
+mean zero.  The next proposition produces a centered Weierstrass
+polynomial whose zero set is $V$.
+
+\begin{proposition}[Common preparation]
+\label{prop:common-preparation}
+\label{lem:maximal-chain-weierstrass}
+Under the hypotheses of \Cref{sec:input}, choose $i$ with
+$m_i=m_{\mathrm{tr}}$.  Then $\Gamma_i$ is smooth,
+$a_i=m_{\boldsymbol n}$, and its path through the base-point cluster
+consists only of the origin.
+There are coordinates $(x,y)$ with $\Gamma_i=\{y=0\}$ in which
+\begin{equation}
+ \begin{gathered}
+ v=EG,\qquad
+ G=x^{m_{\boldsymbol n}}+
+   \sum_{j=0}^{m_{\boldsymbol n}-2}c_j(y)x^j,\qquad
+ E\in\C\{x,y\}^*,\\
+ c_j\in\C\{y\},\qquad
+ \ord_yc_j\geq(m_{\boldsymbol n}-j)A_{m_{\boldsymbol n}}
+ \quad(0\leq j\leq m_{\boldsymbol n}-2).
+ \end{gathered}
+ \label{eq:maximal-chain-coefficients}
+\end{equation}
+If $m_{\boldsymbol n}=2$ and $M_{\boldsymbol n}=2$, then
+$m_{\mathrm{tr}}=2$.
+\end{proposition}
+
+\begin{proof}
+Write $r=\mult_0(\Gamma_i)$.  The local intersection inequality,
+\eqref{eq:one-polar}, and \eqref{eq:input-knot} give
+\[
+ m_{\boldsymbol n}r\leq a_i,\qquad
+ a_i(m_{\mathrm{tr}}-1)\leq2m_X-M_{\boldsymbol n}-b,\qquad
+ M_{\boldsymbol n}\leq m_{\mathrm{tr}}.
+\]
+If $m_{\boldsymbol n}=4$, \Cref{lem:maximal-component-estimate}
+gives $a_i\leq4$, hence $r=1$ and $a_i=4$.
+
+Suppose $m_{\boldsymbol n}=3$.  The same lemma gives
+$r=1$ and $a_i\in\{3,4\}$.  If $a_i=4$,
+\eqref{eq:path-intersection} requires one further base point $p$ on
+the path of $\Gamma_i$, with $p$ free and $m_{\boldsymbol n,p}=1$.  This point is distinct from
+the satellite points counted in \eqref{eq:branch-count}, so
+\[
+ 3M_{\boldsymbol n}-m_X=2(A_2+A_1)\geq2,\qquad
+ M_{\boldsymbol n}\geq3+1+(3-b)=7-b.
+\]
+Consequently
+\[
+ 2m_X-7M_{\boldsymbol n}-3b+12
+ \leq8-M_{\boldsymbol n}-3b\leq1-2b<0,
+\]
+contrary to \eqref{eq:maximal-component-four}.  Thus $a_i=3$.
+
+Now suppose $m_{\boldsymbol n}=2$.  The cluster formulas
+\eqref{eq:input-point-basis} and \eqref{eq:branch-count} give
+\[
+ M_{\boldsymbol n}=2A_2+A_1,\qquad
+ m_X=2M_{\boldsymbol n}-A_1,\qquad 1\leq b\leq2.
+\]
+If $M_{\boldsymbol n}\geq3$ and $a_i\geq4$, then
+\[
+ 4(M_{\boldsymbol n}-1)
+ \leq a_i(m_{\mathrm{tr}}-1)
+ \leq3M_{\boldsymbol n}-b,
+\]
+forcing $M_{\boldsymbol n}=3$ and $b=1$.  But a cluster with
+$M_{\boldsymbol n}=3$ consists of the origin, where
+$m_{\boldsymbol n,0}=2$, and one point $p$ on the exceptional curve
+of the first blowup, with
+$m_{\boldsymbol n,p}=1$.  Thus \eqref{eq:branch-count} gives $b=2$.
+Therefore $a_i\leq3$ and $r=1$.
+If $a_i=3$, the path of $\Gamma_i$ contains a free base point $p$
+with $m_{\boldsymbol n,p}=1$.  By \eqref{eq:branch-count}, the satellite
+points account for $2-b$ of the $A_1$ points.  Including this free
+point gives $A_1\geq3-b$.  The polar bound \eqref{eq:one-polar} would then imply
+\[
+ 3(M_{\boldsymbol n}-1)
+ \leq3M_{\boldsymbol n}-2A_1-b,\qquad
+ 3\geq2A_1+b\geq6-b\geq4.
+\]
+Hence $a_i=2$ when $M_{\boldsymbol n}\geq3$.
+
+If $M_{\boldsymbol n}=2$, the origin is the only base point, so
+$m_X=4$ and $b=2$.  The quadratic initial form $q_v$ of $v$ has two
+distinct roots in $\mathbb P^1$.  Since $i_0(v,u)=4$, the initial form
+$q_u$ of $u$ is also quadratic and has no common root with $q_v$.
+The morphism
+\[
+ [q_v:q_u]:\mathbb P^1\longrightarrow\mathbb P^1,\qquad
+ [x:y]\longmapsto[q_v(x,y):q_u(x,y)]
+\]
+has degree two.  Riemann--Hurwitz gives two simple ramification
+points, neither at a zero of $q_v$, since $q_u/q_v$ has simple
+poles there.  Thus $J(q_v,q_u)$ is squarefree and coprime to $q_v$.
+Let $h_i=0$ be an irreducible equation for $\Gamma_i$.  The initial
+form of $h_i$ for total degree is a nonzero multiple
+of $L^r$ for a linear form $L$.  The divisibility
+$h_i^{m_{\mathrm{tr}}-1}\mid J(v,u)$ from \eqref{eq:input-divisor} gives
+\[
+ L^{r(m_{\mathrm{tr}}-1)}\mid J(q_v,q_u).
+\]
+It follows that $r=1$ and $m_{\mathrm{tr}}=2$.  Since $L$ does not
+divide $q_v$, the curves $\Gamma_i$ and $V$ have no common tangent,
+and $a_i=2$.
+
+Thus $\Gamma_i$ is smooth and $a_i=m_{\boldsymbol n}$ in every
+order.  Formula \eqref{eq:path-intersection} then excludes later
+base points on the path of $\Gamma_i$.
+Choose coordinates $(x,y)$ with $\Gamma_i=\{y=0\}$ so that the
+successive strict transforms of $x=0$ pass through the base points
+with $m_{\boldsymbol n,p}=m_{\boldsymbol n}$, ordered as in
+\Cref{lem:cluster}.  These axes are transverse.
+By \eqref{eq:chain-value}, Weierstrass preparation
+\cite[Theorem~I.1.6]{GreuelLossenShustin} writes $v$ as a unit times
+\[
+ x^{m_{\boldsymbol n}}+\sum_{j<m_{\boldsymbol n}}d_j(y)x^j,
+ \qquad
+ \ord_y d_j\geq(m_{\boldsymbol n}-j)A_{m_{\boldsymbol n}}.
+\]
+The translation $x'=x+d_{m_{\boldsymbol n}-1}(y)/m_{\boldsymbol n}$
+centers the roots of this Weierstrass polynomial.  The added term
+$d_{m_{\boldsymbol n}-1}(y)/m_{\boldsymbol n}$ has order at least
+$A_{m_{\boldsymbol n}}$, so it preserves the coefficient bounds and
+the axis $\Gamma_i$.  This proves \eqref{eq:maximal-chain-coefficients}.
+\end{proof}
+
+\subsection{The first separation of the roots}
+
+For the formulas in this subsection, write $m=m_{\boldsymbol n}$.
+The centered polynomials supplied by \Cref{prop:common-preparation}
+have the following forms in the three orders under consideration:
+\[
+ \begin{array}{c|c}
+ m&G(x,y)\\ \hline
+ 2&x^2+c_0(y)\\
+ 3&x^3+c_1(y)x+c_0(y)\\
+ 4&x^4+c_2(y)x^2+c_1(y)x+c_0(y)
+ \end{array}.
+\]
+For Step~\ref{step:root-separation}, we divide the roots by powers of
+$y$ and find the smallest exponent for which their limits differ as
+$y\to0$.  We use weighted initial forms to compute these limits and
+to compare the three coordinates $v,u,w$ of $\boldsymbol n$.
+For positive integral weights $(w_x,w_y)$, the \emph{weighted
+order} of a nonzero series is the least value of $iw_x+jw_y$
+among its monomials $x^iy^j$.  Its \emph{weighted initial form},
+or simply \emph{initial form}, is the sum of the monomials of that
+weight.  We use
+$\operatorname{ord}_{(w_x,w_y)}$ and
+$\operatorname{in}_{(w_x,w_y)}$ for these operations.  The same
+definitions apply to positive rational weights, which may be multiplied
+by a common denominator.
+A polynomial is \emph{weighted homogeneous} if all its nonzero monomials
+have the same weight.
+
+For a reduced Weierstrass polynomial $G$ as in
+\eqref{eq:maximal-chain-coefficients}, define its \emph{separation exponent} by
+\begin{equation}
+ \alpha=\min_{0\leq j\leq m-2}\frac{\ord_yc_j}{m-j}\geq A_m,
+ \qquad \ord_y0=\infty.
+ \label{eq:separation-weight}
+\end{equation}
+At least one $c_j$ is nonzero, since otherwise $G=x^m$ would not
+be reduced for $m\geq2$.  Thus $\alpha$ is finite.  By Puiseux' theorem
+\cite[Theorem~2.2.6]{Wall}, after a substitution $y=t^d$ for some
+integer $d\geq1$, the roots of $G(x,y)=0$ are
+convergent power series in $t$.  Denote the corresponding series in
+fractional powers of $y$ by $\xi_1(y),\ldots,\xi_m(y)$.
+These are the \emph{Puiseux roots} of $G$.  Normalize their orders by
+$\ord_y y=1$.  Each $\xi_i$ has order at least $\alpha$:
+otherwise its $m$th power would be the unique term of least order
+in $G(\xi_i(y),y)=0$.  As $y\to0$, the substitution $x=y^\alpha z$ gives the
+\emph{limiting polynomial} $P_m$, defined by
+\begin{equation}
+ y^{-m\alpha}G(y^\alpha z,y)\longrightarrow P_m(z),\qquad
+ \operatorname{in}_{(\alpha,1)}G=y^{m\alpha}P_m(x/y^\alpha).
+ \label{eq:limiting-polynomial}
+\end{equation}
+The limits of $\xi_i(y)/y^\alpha$ are the roots of the monic polynomial
+$P_m$, counted with multiplicity.  Its coefficient of $z^{m-1}$
+vanishes, and the minimum in \eqref{eq:separation-weight} gives a
+nonzero coefficient of lower degree.  If $P_m(z)=(z-\zeta)^m$ for some
+$\zeta\in\C$, its vanishing coefficient of $z^{m-1}$ would give
+$\zeta=0$, contrary to the existence of that nonzero coefficient
+of lower degree.
+Since $P_m$ is monic of degree $m$, it is therefore not the $m$th
+power of a polynomial in $\C[z]$, and its roots are not all equal.
+For every rational number $\beta$ with $0<\beta<\alpha$, all
+rescaled roots $\xi_i(y)/y^\beta$ tend to zero as $y\to0$.  Thus
+$\alpha$ is the first exponent at which at least two rescaled roots
+have different limits.
+
+\subsection{Collisions of weighted initial forms}
+
+To detect noninjectivity, we study pairs of distinct points with the
+same image under the map formed by the weighted initial forms of
+$v,u,w$.  These are the pairs whose
+separation is required in Step~\ref{step:third-coordinate}.
+Weighted homogeneity allows us to record them in a weighted
+projective space.  The lemma below shows that an isolated collision
+in that space implies that the analytic map is not injective.
+
+Use positive integral weights $(w_x,w_y)$, clearing denominators
+if the given weights are rational.  The weighted projective space
+$\mathbb P(w_x,w_y,w_x,w_y)$ identifies nonzero tuples $(x,y,X,Y)$
+under the rescalings
+\[
+ (x,y,X,Y)\longmapsto
+ (\lambda^{w_x}x,\lambda^{w_y}y,\lambda^{w_x}X,\lambda^{w_y}Y),
+ \qquad \lambda\in\C^*.
+\]
+If
+$F_0=(F_{1,0},F_{2,0},F_{3,0}):\C^2\to\C^3$ has nonzero weighted
+homogeneous polynomial components for these weights, let
+$\mathcal Z(F_0)$ be the closed algebraic set in the weighted projective space $\mathbb P(w_x,w_y,w_x,w_y)$ cut out by
+\[
+ F_{i,0}(x,y)-F_{i,0}(X,Y)=0
+ \qquad(1\leq i\leq3).
+\]
+Its \emph{diagonal} is
+\[
+ \Delta=V(x-X,y-Y)\subset\mathbb P(w_x,w_y,w_x,w_y).
+\]
+When only two weighted homogeneous forms $P,Q$ are specified,
+$\mathcal Z(P,Q)$ denotes the closed algebraic set defined by
+$P(x,y)=P(X,Y)$ and $Q(x,y)=Q(X,Y)$ in the same weighted projective
+space.  We call this set the \emph{projective fiber product} of
+$(P,Q)$ with itself.  For a third form $R$, write
+\[
+ \Delta_R=V\bigl(R(x,y)-R(X,Y)\bigr).
+\]
+Thus $\mathcal Z(P,Q,R)=\mathcal Z(P,Q)\cap\Delta_R$.
+We call a point of $\mathcal Z(P,Q,R)$ outside $\Delta$ a
+\emph{collision of the initial forms}.  We will use the following criterion to pass from such
+a point to noninjectivity of an analytic germ.
+For an analytic germ $F=(F_1,F_2,F_3):(\C^2,0)\to(\C^3,0)$
+with $F_i\neq0$, let $F_0$ be the map whose components are the
+initial forms of the $F_i$ for the fixed weights $(w_x,w_y)$.
+
+\begin{lemma}
+\label{lem:weighted-lifting}
+If $\mathcal Z(F_0)$ has an isolated point outside $\Delta$, then $F$
+is not injective.
+\end{lemma}
+
+\begin{proof}
+Choose a homogeneous coordinate of weight $d$ that is nonzero at the isolated point
+of $\mathcal Z(F_0)\setminus\Delta$.  Setting this coordinate equal to
+one gives a finite map from $\C^3$ onto the corresponding chart of
+$\mathbb P(w_x,w_y,w_x,w_y)$. Indeed, this map is the quotient by the
+residual action of the finite group of $d$th roots of unity.
+Choose a preimage of the isolated point
+and local coordinates $\xi_1,\xi_2,\xi_3$ at that preimage.
+Under weighted rescaling, the equations
+\[
+ \tau^{-\operatorname{ord}_{(w_x,w_y)}F_i}
+ \bigl(F_i(\tau^{w_x}x,\tau^{w_y}y)
+       -F_i(\tau^{w_x}X,\tau^{w_y}Y)\bigr)=0
+ \qquad(1\leq i\leq3)
+\]
+have left-hand sides that are convergent in
+$(\xi_1,\xi_2,\xi_3,\tau)$ and have an isolated common zero on
+$\{\tau=0\}$.  Three equations in four
+variables have a common zero set of dimension at least one
+\cite[Theorem~B.2.1(1)]{GreuelLossenShustin}.  A component of positive dimension through the chosen zero is
+therefore not contained in $\{\tau=0\}$.
+For $\tau\neq0$, rescaling gives two distinct points of $\C^2$
+with the same image under $F$.  Both points approach the origin
+as $\tau\to0$, proving noninjectivity.
+\end{proof}
+
+\subsection{Weighted orders and divisibility of the Jacobian minors}
+\label{sec:weighted-pair}
+
+We compare the separation exponent of $G$ with the vanishing order
+of $J(v,u)$ along $\Gamma_i$.  The following estimate uses
+\eqref{eq:input-divisor} and \eqref{eq:input-knot} to connect
+Steps~\ref{step:ramification} and \ref{step:root-separation}.
+It applies when $m_{\boldsymbol n}\in\{3,4\}$.
+Retain the coordinates of \Cref{prop:common-preparation}, put
+$m=m_{\boldsymbol n}\in\{3,4\}$, and use $\alpha,P=P_m$ from
+\eqref{eq:separation-weight}--\eqref{eq:limiting-polynomial}.
+By \eqref{eq:input-divisor}, $y^{m_{\mathrm{tr}}-1}\mid J(v,u)$.
+Throughout this subsection, initial forms and weighted orders are
+taken with respect to $(\alpha,1)$.
+Subtract terms $cv^q$ from $u$ while its initial form is a scalar
+multiple of a positive integral power of the initial form of $v$.
+These target changes leave $u|_V$ unchanged and preserve the ideals
+$I$ and $(v,u)B$ and the Jacobian determinant $J(v,u)$.
+Each subtraction strictly increases the weighted order of the remainder.
+If the process did not terminate, its remainders would have
+arbitrarily large order at the origin, so $u\in(v)+\mathfrak m^N$
+for every $N$.  Krull intersection in $B/(v)$
+\cite[Theorem~B.4.2]{GreuelLossenShustin} would give $u\in(v)$,
+contradicting $i_0(v,u)=m_X<\infty$ in \eqref{eq:input-point}.
+For this choice of $u$, put
+\[
+ \ell=\nu_\alpha(u),\qquad
+ \operatorname{in}_{(\alpha,1)}u=y^\ell R(x/y^\alpha),\qquad
+ k=\deg R.
+\]
+Define the polynomial $\Omega=\ell P'R-m\alpha PR'$.
+If $\Omega\neq0$, set $j=\deg\Omega$.
+
+\begin{lemma}
+\label{lem:weighted-pair}
+One has $\ell=k\alpha$ and
+\begin{equation}
+ m_X\geq m_{\boldsymbol{n}}\ell.                      \label{eq:resultant-bound}
+\end{equation}
+If $\Omega\neq0$, then
+\begin{equation}
+ m_{\mathrm{tr}}
+ \leq\ell+\alpha(m_{\boldsymbol{n}}-1-j).              \label{eq:jacobian-bound}
+\end{equation}
+In this case, $j\leq m_{\boldsymbol n}-2$ and
+$k\geq m_{\boldsymbol n}+1$.  If $\Omega=0$, then
+\begin{equation}
+ R^{m_{\boldsymbol{n}}}=\kappa P^k                    \label{eq:power-identity}
+\end{equation}
+for some $\kappa\in\C^*$, and the inequality in
+\eqref{eq:resultant-bound} is strict.
+\end{lemma}
+
+\begin{proof}
+Every Puiseux root $\xi(y)$ of $G$ has order at least $\alpha$,
+as established before \eqref{eq:limiting-polynomial}.
+By \eqref{eq:input-point}, the intersection formula
+\cite[Lemma~1.2.1(ii)--(iii)]{Wall}, with roots counted with multiplicity and
+$\ord_y y=1$, gives
+\[
+ m_X=i_0(G,u)=\sum_{G(\xi,y)=0}\ord_y u(\xi(y),y)\geq m\ell.
+\]
+If $\Omega\neq0$, differentiation gives
+\[
+ \operatorname{in}_{(\alpha,1)}J(v,u)
+ =E(0,0)y^{\ell+(m-1)\alpha-1}\Omega(x/y^\alpha).
+\]
+Indeed, in $J(v,u)=EJ(G,u)+GJ(E,u)$, the summand $GJ(E,u)$ has
+weighted order at least
+$\ell+(m-1)\alpha-1+\min(\alpha,1)$, so it does not contribute
+to the initial form of $J(v,u)$.
+The nonzero coefficient of $z^j$ in $\Omega(z)$ gives a nonzero
+monomial $x^jy^{\ell+(m-1-j)\alpha-1}$ in that initial form.
+Since $y^{m_{\mathrm{tr}}-1}\mid J(v,u)$, its exponent of $y$
+is at least $m_{\mathrm{tr}}-1$, proving \eqref{eq:jacobian-bound}.
+Combining \eqref{eq:jacobian-bound}
+with \eqref{eq:resultant-bound} and \eqref{eq:input-knot} yields
+\[
+ (m-3)\ell+M_{\boldsymbol n}\leq3\alpha(m-1-j).
+\]
+Since $m\geq3$, $\ell>0$, and $M_{\boldsymbol n}\geq m>0$,
+the quantity $(m-3)\ell+M_{\boldsymbol n}$ is positive.
+As $\alpha>0$, this forces $m-1-j>0$, hence $j\leq m-2$.
+The coefficient of $z^{m+k-1}$ in $\Omega(z)$ is
+$m(\ell-k\alpha)$ times the nonzero coefficient of $z^k$ in $R(z)$.
+Since $m+k-1\geq m-1>j=\deg\Omega$, this coefficient vanishes,
+so $\ell=k\alpha$.
+Thus $x^k$ occurs in $u$, and $u\in\mathfrak m^m$ gives $k\geq m$.
+If $k=m$, let $r_m\neq0$ be the leading coefficient of $R$.
+Since $P$ is monic and the choice of $u$ in \Cref{sec:weighted-pair} excludes
+$R=r_mP$, the polynomial $\widetilde R=R-r_mP$ is nonzero and
+has degree $d<m$.  The equality $\ell=m\alpha$ gives
+\[
+ \Omega=m\alpha(P'\widetilde R-P\widetilde R').
+\]
+If $\widetilde r_d$ is the leading coefficient of $\widetilde R$,
+the coefficient of $z^{m+d-1}$ in this expression is
+$m\alpha(m-d)\widetilde r_d\neq0$.
+Hence $\deg\Omega=m+d-1\geq m-1$, contradicting $j\leq m-2$.
+
+If $\Omega=0$, the coefficient of $z^{m+k-1}$ in the zero
+polynomial $\ell P'R-m\alpha PR'$ gives $\ell=k\alpha>0$.
+The identity $kP'R-mPR'=0$ then implies
+$(R^m/P^k)'=0$ in the rational function field $\C(z)$.
+A rational function with zero derivative is constant, so
+$R^m/P^k=\kappa\in\C^*$, proving \eqref{eq:power-identity}.
+For every Puiseux root $\xi$ of $G$, the constant term
+$\zeta$ of $\xi/y^\alpha$ satisfies $P(\zeta)=0$, and
+therefore $R(\zeta)=0$.  Each order $\ord_y u(\xi(y),y)$ in the
+resultant formula is then strictly greater than $\ell$.
+\end{proof}
+
+\section{Exclusion of
+\texorpdfstring{$m_{\boldsymbol{n}}=4$}{m(n)=4}}
+\label{sec:dfour}
+
+When $m_{\boldsymbol n}=4$, we compare the separation of the roots of the
+Weierstrass polynomial $G$ defining $V$ with the multiplicities of the
+successive strict transforms of $V$.
+In Step~\ref{step:root-separation}, the first separation must be into
+two pairs, and the multiplicities of the strict transforms of $V$
+after the corresponding blowups violate the numerical bounds.  This excludes $m_{\boldsymbol n}=4$ without the
+argument for the third coordinate in Step~\ref{step:third-coordinate}.
+
+\begin{theorem}
+\label{thm:dfour}
+Under the hypotheses of \Cref{sec:input}, one has
+$m_{\boldsymbol{n}}\neq4$.
+\end{theorem}
+
+\begin{proof}
+Assume $m_{\boldsymbol n}=4$ and apply \Cref{prop:common-preparation},
+with $v=EG$.  Let $\alpha\geq A_4$ be the separation exponent
+from \eqref{eq:separation-weight}, and write $P=P_4$ for the
+limiting quartic in \eqref{eq:limiting-polynomial}.
+Since $a_i=4$, \eqref{eq:maximal-component-four} holds.
+
+To determine $P$, subtract scalar multiples of powers of $v$ from $u$
+as in \Cref{sec:weighted-pair}, until the initial form of $u$ for
+weights $(\alpha,1)$ is not a scalar multiple of a positive integral
+power of the initial form of $v$.  Use the notation $R,\Omega$ and
+$k=\deg R$ from \Cref{lem:weighted-pair}.
+If $\Omega\neq0$, the lemma gives
+$k\geq5$, $m_X\geq4k\alpha$, and $m_{\mathrm{tr}}\leq(k+3)\alpha$.
+Also, \eqref{eq:input-resolution} gives $M_{\boldsymbol n}\geq m_X/4$, so
+\[
+ 5k\alpha\leq\frac54m_X\leq m_X+M_{\boldsymbol n}
+ \leq3m_{\mathrm{tr}}\leq3(k+3)\alpha,
+\]
+contradicting $k\geq5$.
+
+Hence $\Omega=0$, and \eqref{eq:power-identity} gives
+$R(z)^4=\kappa P(z)^k$ in $\C[z]$, with $\kappa\neq0$.
+Factoring both sides into linear factors shows that $P$ and $R$
+have the same roots and, at each such root $\zeta$,
+\[
+ 4\ord_{z=\zeta}R=k\ord_{z=\zeta}P,
+\]
+where $\ord_{z=\zeta}$ denotes the order of vanishing at $\zeta$.
+If $k$ is odd, every root multiplicity of $P$ is divisible by
+four, contrary to the fact that $P$ is not a fourth power, established
+after \eqref{eq:limiting-polynomial}.
+If $4\mid k$, the identity $R^4=\kappa P^k$ gives $R=cP^{k/4}$, contrary to the
+choice of $u$ in \Cref{sec:weighted-pair}.  Thus $k\equiv2\pmod4$, and every root
+multiplicity of $P$ is even.  Write $P=Q^2$ with $Q$ a monic quadratic.
+The vanishing cubic coefficient of $P$ gives
+\[
+ Q=z^2+\eta,\qquad P=(z^2+\eta)^2,\qquad \eta\neq0,
+\]
+where $\eta\neq0$ because $P$ is not a fourth power.
+Since $x^k$ occurs in $u\in\mathfrak m^4$, we have $k\geq4$,
+and hence $k\geq6$.
+The roots of $G$, divided by $y^\alpha$, tend in pairs to $a,-a$
+with $a^2=-\eta$.
+The strict inequality in \eqref{eq:resultant-bound} when $\Omega=0$ gives
+\begin{equation}
+ m_X>4k\alpha\geq24A_4.                         \label{eq:d4-contact}
+\end{equation}
+
+
+We now determine the multiplicities of the strict transforms of $V$
+after this separation.
+The coefficient $c_2\in\C\{y\}$ of $x^2$ in $G$ has leading term
+$2\eta y^{2\alpha}$.  Since $\eta\neq0$, $2\alpha=\ord_yc_2$ is an integer.
+Since $\alpha\geq A_4$, the number $q=2(\alpha-A_4)$ is a
+nonnegative integer.  By \Cref{lem:cluster}, the $A_4$ base points $p$
+with $m_{\boldsymbol n,p}=4$ form a sequence in which each point after
+the origin lies on the exceptional curve created by blowing up the
+preceding point.  After blowing up these points in order, the strict
+transform of $V$ is defined by the polynomial
+\[
+ G_{A_4}(X,y)=y^{-4A_4}G(y^{A_4}X,y)
+ =X^4+\widetilde c_2(y)X^2+\widetilde c_1(y)X+\widetilde c_0(y),
+\]
+whose coefficients satisfy
+\[
+ \ord_y\widetilde c_2=q,\qquad
+ \ord_y\widetilde c_1>\tfrac32q,\qquad
+ \ord_y\widetilde c_0=2q.
+\]
+If $q\geq2$, every monomial of $G_{A_4}$ has ordinary total
+degree at least four, and $X^4$ occurs with coefficient one.
+Thus the strict transform would have multiplicity exactly four at
+$(0,0)$.  By \Cref{sec:input}, this would be a further base point $p$
+with $m_{\boldsymbol n,p}=4$, contradicting the definition of $A_4$
+in \eqref{eq:base-point-counts}.
+If $q=0$, the strict transform meets the exceptional curve $y=0$
+at $(a,0)$ and $(-a,0)$, since
+$G_{A_4}(X,0)=(X^2+\eta)^2$ and $a^2=-\eta\neq0$.
+At either point, the restriction of $G_{A_4}$ to $y=0$ has order two in
+$X-a$ or $X+a$, respectively.  The multiplicity of the plane
+curve germ $\{G_{A_4}=0\}$ at that point is therefore at
+most two.
+If $q=1$, the restriction $G_{A_4}(X,0)=X^4$ gives only the
+point $(0,0)$ on the exceptional curve.  The lowest homogeneous
+part of $G_{A_4}$ for the ordinary total degree is
+$\eta^2y^2\neq0$, so the plane curve germ has multiplicity two there.
+Every remaining base point maps to one of the points just described
+under the intervening blowups.
+Every Puiseux root $\xi(y)$ of $G$ has order at least $\alpha\geq A_4$.
+Hence $\xi(y)/y^r$ remains bounded for $1\leq r\leq A_4$ and
+tends to zero for $r<A_4$.  Thus the successive strict transforms of
+every branch of $V$ lie in the charts with coordinates $(x/y^r,y)$,
+and after blowing up all $A_4$ points they pass through one of the
+points just listed.
+By \cite[Lemma~3.4.2]{Wall} and the local intersection inequality,
+multiplicity cannot increase under further blowups.  Since the
+multiplicities of the strict transforms of $V$ at the base points are
+$m_{\boldsymbol n,p}$, all remaining base points satisfy
+$m_{\boldsymbol n,p}\leq2$.  Therefore
+\eqref{eq:input-point-basis} gives
+\begin{equation}
+ m_X\leq16A_4+2(M_{\boldsymbol n}-4A_4)
+      =2M_{\boldsymbol n}+8A_4.                    \label{eq:d4-two}
+\end{equation}
+Combining \eqref{eq:d4-two} with \eqref{eq:d4-contact} gives
+$M_{\boldsymbol n}>8A_4\geq8$ and $m_X<3M_{\boldsymbol n}$.
+Thus the average $m_X/M_{\boldsymbol n}$ of the multiplicities $m_{\boldsymbol n,p}$,
+with weights proportional to $m_{\boldsymbol n,p}$, is below three.
+However, integrality gives $M_{\boldsymbol n}\geq9$, and the polar
+estimate \eqref{eq:maximal-component-four} gives
+\[
+ 2m_X\geq7M_{\boldsymbol n}+3b-12
+ \geq7M_{\boldsymbol n}-9\geq6M_{\boldsymbol n},
+\]
+a contradiction.
+\end{proof}
+
+\section{Exclusion of
+\texorpdfstring{$m_{\boldsymbol{n}}=3$}{m(n)=3}}
+\label{sec:dthree}
+
+When $m_{\boldsymbol n}=3$, the numerical bounds determine two possible
+pairs of weighted initial forms of $v,u$ in Step~\ref{step:root-separation}.
+For Step~\ref{step:third-coordinate}, the projective fiber product
+records pairs of points with the same image under the map defined by
+each pair of forms, up to simultaneous rescaling.
+The divisibility conditions on the Jacobian minors prevent the third
+coordinate from separating all such pairs.  The isolated collisions
+obtained from these initial forms lift to the analytic map $\boldsymbol n$
+and contradict
+\eqref{eq:strategy-separation}.
+
+In the next two subsections, assume $m_{\boldsymbol n}=3$ and use
+the component $\Gamma_i$ and coordinates of \Cref{prop:common-preparation}.
+Thus $\Gamma_i=\{y=0\}$ and $a_i=3$.  Put $a=A_3\geq1$.
+Since $m_{\boldsymbol n,p}\in\{1,2,3\}$ at every base point $p\in\mathcal C$,
+\eqref{eq:input-point-basis} and \eqref{eq:branch-count} give
+\begin{equation}
+ 2M_{\boldsymbol n}-m_X
+ =\sum_{p\in\mathcal C}m_{\boldsymbol n,p}(2-m_{\boldsymbol n,p})
+ \geq-3a,\qquad b\leq3.
+ \label{eq:d3-point-bounds}
+\end{equation}
+\subsection{The two possible pairs of weighted initial forms}
+
+In independent variables $x,t$, define the pairs of homogeneous polynomials
+\begin{align}
+ E:\quad &P=x^3+3t^3,& Q&=x^4+4xt^3,               \label{eq:d3-E}\\
+ H:\quad &P=x^3+3xt^2,& Q&=x^4+4x^2t^2+2t^4.       \label{eq:d3-H}
+\end{align}
+The Jacobian of each pair is
+\begin{equation}
+ J_{x,t}(P,Q)=
+ \begin{cases}-36t^5,&E,\\24t^5,&H.\end{cases}    \label{eq:d3-PQjac}
+\end{equation}
+The following proposition identifies $E$ and $H$, after substituting
+$t=y^a$, as the possible pairs of initial forms of $v,u$ for weights
+$(a,1)$ and determines the transverse multiplicity $m_{\mathrm{tr}}$.
+
+\begin{proposition}
+\label{prop:d3-models}
+Under the assumptions of \Cref{sec:dthree}, there are source
+coordinates $(x,y)$ with $\Gamma_i=\{y=0\}$ and
+changes of target coordinates, obtained by subtracting a polynomial in
+$v$ from $u$ and multiplying $v,u$ by nonzero constants, such that
+\[
+ \operatorname{in}_{(a,1)}v=P(x,y^a),\qquad
+ \operatorname{in}_{(a,1)}u=Q(x,y^a)
+\]
+for one of the pairs \eqref{eq:d3-E}, \eqref{eq:d3-H}.  Moreover,
+\begin{equation}
+ m_X=12a,\qquad m_{\mathrm{tr}}=6a.                \label{eq:d3-exact}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Let $\alpha\geq a$ be the separation exponent of $G$ from
+\eqref{eq:separation-weight}, and write the limiting cubic as
+\[
+ p=P_3=z^3+a_pz+b_p.
+\]
+As established after \eqref{eq:limiting-polynomial}, the monic cubic
+$p\in\C[z]$ is not equal to $(z-c)^3$ for any
+$c\in\C$.  Its root multiplicities sum to three, so at least one
+root is simple.
+Apply \Cref{lem:weighted-pair} to $(v,u)$ and retain its notation
+$R,\Omega,\ell,k$.
+If $\Omega=0$, the identity $R^3=\kappa p^k$ in $\C[z]$
+gives $3\ord_{z=c}R=k$ at a simple root $c$ of $p$, so $3\mid k$.
+At every root of $p$, the multiplicity as a root of $R$ is
+$k/3$ times the multiplicity as a root of $p$, and $R$ has no other roots.
+Thus $R=c_0p^{k/3}$ for some $c_0\in\C^*$.
+Since $\ell=k\alpha$, the initial form of $u$ for weights $(\alpha,1)$ would then be a
+scalar multiple of the $(k/3)$rd power of that of $v$, contrary
+to the choice of $u$ in \Cref{sec:weighted-pair}.
+Thus $\Omega\neq0$.  With $j=\deg\Omega$ and $k=\deg R$, the lemma gives
+\[
+ j\leq1,\quad k\geq4,\quad \ell=k\alpha,\quad
+ m_X\geq3k\alpha,\quad
+ m_{\mathrm{tr}}\leq\alpha(k+2-j).
+\]
+By \eqref{eq:d3-point-bounds} and \eqref{eq:input-knot},
+\[
+ \frac92k\alpha-\frac32a
+ \leq m_X+M_{\boldsymbol n}\leq3m_{\mathrm{tr}}
+ \leq3\alpha(k+2-j).
+\]
+Hence $(k-4+2j)\alpha\leq a\leq\alpha$.
+Dividing by $\alpha>0$ gives $k-4+2j\leq1$.
+Since $k\geq4$ and $j\geq0$ are integers, this forces
+$j=0$.  At every root $c$ of $p$,
+$0\neq\Omega(c)=\ell p'(c)R(c)$.
+Hence $p'(c)\neq0$ and $R(c)\neq0$ at every root of $p$.
+Thus all roots of $p$ are simple, and $p,R$ are coprime in
+$\C[z]$.  Along each of the three Puiseux roots of $G$,
+the orders of the restrictions of $u$ and $G_x$, normalized by
+$\ord_y y=1$, are therefore exactly $k\alpha$ and $2\alpha$,
+respectively.  Summing these orders in the
+resultant formulas for $i_0(G,u)=m_X$ and $i_0(G,G_x)$ gives
+\[
+ m_X=3k\alpha,\qquad i_0(G,G_x)=6\alpha.
+\]
+Since $v=EG$ and $E$ is a unit, $v_x\equiv EG_x\pmod v$
+gives $i_0(v,v_x)=i_0(G,G_x)=6\alpha$.
+The axis $y=0$ is transverse to $V$, so $i_0(v,y)=3$.
+The polar identity
+\cite[Lemma~7.2.1 and its consequence, pp.~160--161]{Wall} is
+\[
+ i_0(v,v_x)=\mu(V,0)+i_0(v,y)-1=\mu(V,0)+2.
+\]
+Thus $\mu(V,0)=6\alpha-2$, and \eqref{eq:input-milnor} yields
+\[
+ M_{\boldsymbol n}=3\alpha(k-2)-b+3.
+\]
+Substituting $m_X=3k\alpha$ and
+$M_{\boldsymbol n}=3\alpha(k-2)-b+3$ into
+$m_X+M_{\boldsymbol n}\leq3m_{\mathrm{tr}}\leq3\alpha(k+2)$
+gives $3\alpha(k-4)\leq b-3$.
+Since $\alpha\geq a\geq1$, $k\geq4$, and
+\eqref{eq:branch-count} gives $b\leq3$, we have
+$0\leq3\alpha(k-4)\leq b-3\leq0$, hence $k=4$ and $b=3$.
+Substituting these values into the formulas for $m_X,M_{\boldsymbol n}$
+and using $M_{\boldsymbol n}\leq m_{\mathrm{tr}}\leq\alpha(k+2)$ gives
+\[
+ k=4,\qquad b=3,\qquad m_X=12\alpha,
+ \qquad M_{\boldsymbol n}=m_{\mathrm{tr}}=6\alpha.
+\]
+The multiplicities of the three branches of $V$ sum to $\mult_0V=3$,
+so each branch is smooth.  Transversality to $y=0$ gives three convergent
+graphs $x=\xi_s(y)$, and the limits of $\xi_s(y)/y^\alpha$ as $y\to0$ are the distinct roots
+$c_s$ of $p$.  At least one $c_s$ is nonzero, so the corresponding
+series $\xi_s(y)$ has order $\alpha$, proving $\alpha\in\Z$.
+For $0\leq r<\alpha$, the strict transforms of all three branches under the
+substitutions $x=y^r x_r$ pass through $(x_r,y)=(0,0)$.
+After the $\alpha$th blowup, they meet the exceptional curve at
+the distinct points $(c_s,0)$.
+Thus the strict transforms of all three branches pass through exactly
+$\alpha$ common centres of blowup, including the origin.  At each centre
+the strict transform of $V$ has multiplicity three, so each centre is a
+base point $p$ with $m_{\boldsymbol n,p}=3$.
+Therefore $a\geq\alpha$, so $a=\alpha$, proving
+\eqref{eq:d3-exact}.
+
+It remains to classify the initial forms of $v,u$ for weights $(a,1)$.
+Set $\chi=R$
+and write $P=t^3p(x/t)$, $Q=t^4\chi(x/t)$.
+Since $\ell=4\alpha$, the nonzero constant $\Omega$ satisfies
+$\Omega=\alpha(4p'\chi-3p\chi')$.
+Put $c=\Omega/\alpha\neq0$, so $4p'\chi-3p\chi'=c$.
+Comparing coefficients of powers of $z$ in this polynomial identity,
+with $c_4$ the coefficient of $z^4$ in $\chi(z)$, gives
+\[
+ \chi=c_4\left(z^4+\frac{4a_p}{3}z^2+\frac{4b_p}{3}z
+                      +\frac{2a_p^2}{9}\right),\qquad
+ a_pb_p=0,\qquad
+ c=c_4\left(\frac{8a_p^3}{9}-4b_p^2\right).
+\]
+The identity $a_pb_p=0$ implies that at least one of $a_p,b_p$ is zero,
+and $c\neq0$ excludes $a_p=b_p=0$.  Thus exactly one is zero.
+Rescaling $x,v,u$ makes the nonzero member of $\{a_p,b_p\}$
+equal to three and both polynomials $P,Q$ monic in $x$, giving
+\eqref{eq:d3-E} or \eqref{eq:d3-H}.
+\end{proof}
+
+In these coordinates, \eqref{eq:input-divisor} and
+\eqref{eq:d3-exact} imply
+\begin{equation}
+ y^{6a-1}\mid J(n_j,n_\ell)
+ \qquad(1\leq j<\ell\leq3).                          \label{eq:d3-minors}
+\end{equation}
+The chain rule preserves this divisibility when a polynomial in $v,u$
+is subtracted from the third coordinate, as in the proof of
+\Cref{thm:dthree}.
+
+\subsection{Collisions of the pairs of homogeneous forms}
+
+For \eqref{eq:d3-E} put $q=3$, and for \eqref{eq:d3-H} put $q=2$.
+The transformations $(x,t)\mapsto(x,\xi t)$, with $\xi^q=1$,
+define the \emph{cyclic action} used below.
+A polynomial $R$ is \emph{invariant} under this action if
+$R(x,\xi t)=R(x,t)$ for every $\xi^q=1$.
+In coordinates $[x:t:X:T]$ on $\mathbb P^3$, define the lines
+\[
+ L_\xi=\{(X,T)=(x,\xi t)\}\qquad(\xi^q=1).
+\]
+The line $L_1$ is the diagonal.
+For each pair $(P,Q)$, the projective fiber product $\mathcal Z(P,Q)$
+consists of these lines and the inverse image of a curve under the
+substitutions $w=t^q$ and $\widetilde w=T^q$.
+The points of this fiber product outside the diagonal represent
+pairs of distinct points with equal values of $P,Q$, as in
+Step~\ref{step:third-coordinate}.
+A collision of the three forms $P,Q,R$ may lie on one of the lines $L_\xi$.
+If the third form $R$ is invariant under this action, all three forms
+are polynomials in $x,w$, where $w=t^q$.
+In case $H$, they take equal values at $(0,w),(0,-w)$ with $w\neq0$
+when the degree of $R$ in $x,t$ is odd, and at
+$(x,-x^2/3),(-x,-x^2/3)$ with $x\neq0$ when that degree is even.
+In case $E$, the derivative
+identity \eqref{eq:d3-derivative} forces a collision.
+For the remaining forms $R$, we compare $R(x,t)-R(X,T)$
+with $t^{\deg R}-T^{\deg R}$.
+The map defined by $P,Q,t^{\deg R}$ has a collision, and the
+comparison prevents all zeros of $R(x,t)-R(X,T)$ on the remaining
+curve components of $\mathcal Z(P,Q)$ from lying on the diagonal.  Put
+\[
+ \Delta=V(x-X,t-T),\qquad p_0=[1:0:1:0],\qquad
+ \Delta_R=V\bigl(R(x,t)-R(X,T)\bigr).
+\]
+
+\begin{proposition}
+\label{prop:d3-cubic-collision}
+Let $(P,Q)$ be either pair \eqref{eq:d3-E}, \eqref{eq:d3-H}, and let
+$R\in\C[x,t]$ be homogeneous.  If
+\begin{equation}
+ R\notin\C[P,Q],\qquad
+ t^5\mid J_{x,t}(P,R),\qquad t^5\mid J_{x,t}(Q,R),  \label{eq:d3-ramification}
+\end{equation}
+then $\mathcal Z(P,Q,R)$ has an isolated point outside the diagonal.
+\end{proposition}
+
+\begin{proof}
+Put $N=\deg R\geq1$.  Set $w=t^q$, $\widetilde w=T^q$, and write
+$P=\overline P(x,w)$, $Q=\overline Q(x,w)$.  In each case, the map
+\[
+ \phi:\C^2_{x,w}\longrightarrow\C^2,\qquad
+ (x,w)\longmapsto\bigl(\overline P(x,w),\overline Q(x,w)\bigr)
+\]
+is finite because its components $\overline P,\overline Q$, homogeneous
+for weights $\deg x=1$ and $\deg w=q$, have only the origin as a common zero.
+Indeed, on $P=0$, the form $Q$ equals
+$xt^3$ in case $E$, and equals $2t^4$ or $-t^4$ in
+case $H$.  The Jacobian of $\phi$ is
+\[
+ J_{x,w}(\overline P,\overline Q)=
+ \begin{cases}-12w,&E,\\12w^2,&H.\end{cases}
+\]
+
+\smallskip
+\noindent\emph{Components of $\mathcal Z(P,Q)$.}
+In coordinates $[x:w:X:\widetilde w]$ on $\mathbb P(1,q,1,q)$,
+let $D$ be the closure of the projective
+classes represented by pairs of distinct points $(x,w),(X,\widetilde w)$
+in a fiber of $\phi$.
+The map
+\[
+ \rho_q:\mathbb P^3\longrightarrow\mathbb P(1,q,1,q),\qquad
+ [x:t:X:T]\longmapsto[x:t^q:X:T^q]
+\]
+is well defined by the coordinate weights and finite because the
+corresponding extension of homogeneous coordinate rings adjoins $q$-th
+roots of $w,\widetilde w$.  We consider every curve component of
+$\rho_q^{-1}(D)$.  If $R(x,t)-R(X,T)$ is
+not identically zero on any component, its zeros on their union are isolated.
+
+For $E$, the equations for $D$ are
+\[
+ w=\frac{(X-x)(X^2+2Xx+3x^2)}{12},\qquad
+ \widetilde w=-\frac{(X-x)(3X^2+2Xx+x^2)}{12}.
+\]
+These equations define an isomorphism $\mathbb P^1_{[x:X]}\to D$,
+whose inverse is the projection of $D$ to $[x:X]$, since $x,X$
+cannot both vanish on $D$.  On $x=1$, put $\lambda=X$.  Then
+\begin{equation}
+ w=\frac{(\lambda-1)(\lambda^2+2\lambda+3)}{12},\qquad
+ \widetilde w=-\frac{(\lambda-1)(3\lambda^2+2\lambda+1)}{12}.
+                                                        \label{eq:d3-E-normalization}
+\end{equation}
+For $H$, on the chart $x=1$ with $X\neq0$, the fiber equation
+$\overline P(1,w)=\overline P(X,\widetilde w)$ gives
+\begin{equation}
+ \widetilde w=\frac{1+3w-X^3}{3X}.                 \label{eq:d3-HW}
+\end{equation}
+Substitution in the fiber equation
+$\overline Q(1,w)=\overline Q(X,\widetilde w)$ gives
+$(X-1)\Gamma_H(X,w)/(9X^2)=0$, where
+\begin{equation}
+ \Gamma_H=18(X+1)w^2-12(X-1)(2X+1)w
+ +(X-1)^2(X^3+3X^2+6X+2).                         \label{eq:d3-Gamma}
+\end{equation}
+After eliminating $\widetilde w$ by \eqref{eq:d3-HW}, the factor $X-1$
+defines the diagonal, and $\Gamma_H=0$ defines $D$
+in the $(X,w)$ chart.
+Regarded as a quadratic in $w$ over $\C(X)$, $\Gamma_H$ has discriminant
+$-72X^2(X-1)^2(X^2+4X+1)$, which is not a square in $\C(X)$
+because $X^2+4X+1$ has two simple roots, neither equal to $0$ or $1$.
+Hence $\Gamma_H$ is irreducible in $\C(X)[w]$.
+Its coefficients have no common nonconstant factor in $\C[X]$,
+so Gauss's lemma implies that it is irreducible in $\C[X,w]$ as well.
+Thus $D$ is irreducible.
+
+Let $C$ be the reduced union of the curve components of
+$\rho_q^{-1}(D)$.  Each component maps onto $D$, since $\rho_q$
+is finite and $D$ is irreducible.
+The point $\rho_q(p_0)$ lies on $D$, and its inverse image is
+$\{p_0\}$, so every component of $C$ passes through $p_0$.
+Consequently, the fiber product decomposes as
+\begin{equation}
+ \bigl|\mathcal Z(P,Q)\bigr|
+ =C\cup\bigcup_{\xi^q=1}L_\xi,
+ \qquad L_1=\Delta.
+ \label{eq:d3-fibre-components}
+\end{equation}
+No further curve component of $\mathcal Z(P,Q)$ is contained in $xX=0$.
+Indeed, neither coordinate
+pair $(x,t)$ nor $(X,T)$ is zero at a point of $\mathcal Z(P,Q)$,
+and finiteness of $(P,Q)$
+gives only finitely many points of $\mathcal Z(P,Q)$ over any fixed
+$[x:t]$ or $[X:T]$.
+The affine fiber product of the finite map $(P,Q)$ with itself is finite
+over either copy of $\C^2$, so it has dimension two.
+The ideal generated by its two defining differences
+$P(x,t)-P(X,T)$ and $Q(x,t)-Q(X,T)$ therefore has height two in
+$\C[x,t,X,T]$.
+The projectivization $\mathcal Z(P,Q)$ of this affine fiber product
+has pure dimension one.
+Distinct lines $L_\xi$ meet only at $p_0$, and $C$ meets their
+union only there.  Indeed, $\phi$ is locally biholomorphic for
+$w\neq0$, so $D$ cannot meet the diagonal
+$\{x=X,w=\widetilde w\}$ there.
+On that diagonal, $w=0$ represents only $\rho_q(p_0)$.
+
+\smallskip
+\noindent\emph{Forms $R$ invariant under the cyclic action.}
+Choose a primitive $q$-th root of unity $\xi$.  If the restriction of
+$R(x,t)-R(X,T)$ to $L_\xi$ in \eqref{eq:d3-fibre-components} is
+not identically zero and has a zero away from $p_0$, that zero is an isolated
+collision.  First suppose that the restriction vanishes
+identically.  Then $R=R_0(x,w)$ with $R_0\in\C[x,w]$ of weighted
+degree $N$ for $\deg x=1$, $\deg w=q$.
+The difference $R_0(x,w)-R_0(X,\widetilde w)$ is not identically zero
+on $D$.  Otherwise $R_0$ would be constant on the fibers of $\phi$
+over its regular values.  The finite extension
+$\C(\overline P,\overline Q)\subset\C(x,w)$ is separable.
+Constancy on these fibers would make all conjugates of $R_0$
+over $\C(\overline P,\overline Q)$ coincide, so its minimal polynomial
+over that field would have degree one and
+$R_0\in\C(\overline P,\overline Q)$.
+Finiteness of $\phi$ also makes $R_0$ integral over the polynomial
+ring $\C[\overline P,\overline Q]$.  This ring is integrally
+closed, so $R_0\in\C[\overline P,\overline Q]$.  Substituting
+$w=t^q$ would give $R\in\C[P,Q]$, contrary to
+\eqref{eq:d3-ramification}.
+Since every component of $C$ maps onto $D$, none is contained
+in $\Delta_R$.  Any zero of $R_0(x,w)-R_0(X,\widetilde w)$ on $D$
+at a pair of distinct points gives, after taking $q$-th roots of
+$w,\widetilde w$,
+a point of $C\cap\Delta_R$ away from $p_0$.
+By \eqref{eq:d3-fibre-components}, such a point is an isolated
+collision.
+
+In case $H$, weighted homogeneity of $R_0$ gives such a pair
+as follows.  If $N$ is odd, every monomial of $R_0$ contains $x$.
+Thus $(0,w)$ and $(0,-w)$ have the same values of
+$\overline P,\overline Q,R_0$ for $w\neq0$.
+If $N$ is even, the exponent of $x$ in every monomial of $R_0$ is even.
+The points $(x,-x^2/3)$ and $(-x,-x^2/3)$ then have the same
+three values for $x\neq0$.
+
+In case $E$, use \eqref{eq:d3-E-normalization} to define the polynomial
+\[
+ F(\lambda)=R_0(1,w(\lambda))
+             -R_0(\lambda,\widetilde w(\lambda)).
+\]
+The polynomial $F$ is nonzero and satisfies $F(1)=0$.
+The chain rule and \eqref{eq:d3-ramification} give
+\[
+ w\mid J_{x,w}(\overline P,R_0),\qquad
+ w\mid J_{x,w}(\overline Q,R_0).
+\]
+Define the polynomials
+\[
+ \Lambda_P=\frac{J_{x,w}(\overline P,R_0)}w,\qquad
+ \Lambda_Q=\frac{J_{x,w}(\overline Q,R_0)}w.
+\]
+Since $J_{x,w}(\overline P,\overline Q)=-12w$, Cramer's rule gives
+\[
+ dR_0=\frac{\Lambda_Q}{12}\,d\overline P
+       -\frac{\Lambda_P}{12}\,d\overline Q.
+\]
+For a polynomial $\Phi\in\C[x,w]$, write
+$[\Phi]=\Phi(1,w(\lambda))
+-\Phi(\lambda,\widetilde w(\lambda))$.
+On the chart $x=1$ of $D$, the common values of $\overline P$ and
+$\overline Q$ are $1+3w(\lambda)$ and $1+4w(\lambda)$.
+Pulling back the identity for $dR_0$ along the maps from $\C$ to
+$\C^2$ given by $\lambda\mapsto(1,w(\lambda))$ and
+$\lambda\mapsto(\lambda,\widetilde w(\lambda))$, and subtracting, yields
+\begin{equation}
+ F'(\lambda)=\frac{w'(\lambda)}{12}
+                 \bigl(3[\Lambda_Q]-4[\Lambda_P]\bigr).
+ \label{eq:d3-derivative}
+\end{equation}
+By \eqref{eq:d3-derivative}, $w'(\lambda)=(3\lambda^2+2\lambda+1)/12$ divides
+$F'(\lambda)$, and the roots of $w'(\lambda)$ are different from $1$.
+If $1$ were the only zero of $F$, then
+$F=c(\lambda-1)^k$ with $c\neq0$ and $k\geq1$, contradicting
+this divisibility.  Hence $F$ has a zero with $\lambda\neq1$,
+which gives a pair of distinct points with equal values of
+$\overline P,\overline Q,R_0$.
+
+\smallskip
+\noindent\emph{The remaining forms $R$.}
+It remains to consider a nonzero restriction of $R(x,t)-R(X,T)$ to $L_\xi$ whose
+only zero is $p_0$.  This restriction is a multiple of $t^N$.
+Comparison of powers of $t$ then gives
+\[
+ R(x,t)=R_0(x,t^q)+ct^N,
+ \qquad c\neq0,\qquad q\nmid N.
+\]
+Here $R_0\in\C[x,w]$.
+In case $E$, \eqref{eq:d3-E-normalization} gives one smooth branch
+of $D$ at $\rho_q(p_0)$, with $w$ a local parameter and
+$\widetilde w/w\to-1$.
+In case $H$, the tangent cone of the curve $\Gamma_H=0$, with
+$\Gamma_H$ defined in \eqref{eq:d3-Gamma}, at $(X,w)=(1,0)$
+is defined by the quadratic form
+\[
+ 12\bigl((X-1)^2-3(X-1)w+3w^2\bigr).
+\]
+The two distinct lines of this tangent cone give two smooth branches of $D$,
+$X=1+\lambda w+O(w^2)$, where $\lambda^2-3\lambda+3=0$.
+By \eqref{eq:d3-HW}, the corresponding limits of
+$\widetilde w/w$ are $1-\lambda$.
+Thus $w$ is a local parameter on every branch of $D$ at $\rho_q(p_0)$,
+and all these limits are nonzero and different from $1$.
+Taking $q$-th roots of $w,\widetilde w$ gives, on every local branch
+of $C$ at $p_0$,
+\[
+ w=t^q,\qquad T=tU(t^q),\qquad U\in\C\{w\}^*.
+\]
+
+We compare $R(x,t)-R(X,T)$ with $t^N-T^N$.
+The latter vanishes at the following points of $C$:
+\begin{equation}
+\begin{array}{c|c|c|c}
+ &X&t=T&x\\ \hline
+ E&\omega x&1&x^3=-4,\quad \omega^3=1,\ \omega\neq1\\
+ H&-x&1&x^2=-3.
+\end{array}
+\label{eq:d3-monomial-pairs}
+\end{equation}
+For $E$, the values of $P$ agree and both values of $Q$ vanish.
+For $H$, both values of $P$ vanish and the values of $Q$ agree.
+At the images of these points under $\rho_q$, the coordinate pairs
+$(x,w)$ and $(X,\widetilde w)$ are distinct, so the points lie on
+$C$ away from all the lines $L_\xi$.
+The rational function $\widetilde w/w$ on $D$ equals $1$ at
+their images, whereas its limits at $\rho_q(p_0)$ differ from $1$.
+It is therefore nonconstant.
+If $t^N-T^N$ vanished on a component of $C$, then $T/t$ would
+be a constant $N$th root of unity there.  Since that component
+maps onto $D$, the function $\widetilde w/w=(T/t)^q$ would
+be constant on $D$, a contradiction.
+Thus no component of $C$ is contained in $\Delta_{t^N}$.
+
+On each local branch of $C$ at $p_0$, in the chart $x=1$, the
+difference $R(x,t)-R(X,T)$ is
+\[
+ A(t^q)+ct^N\bigl(1-U(t^q)^N\bigr),
+ \qquad A\in\C\{w\}.
+\]
+Here $A(w)$ is the restriction of $R_0(x,w)-R_0(X,\widetilde w)$
+to the corresponding local branch of $D$.
+The exponents in the two summands have different residues modulo $q$,
+so their leading terms cannot cancel.  Hence
+\[
+ \ord_t\bigl(R(x,t)-R(X,T)\bigr)
+ \leq\ord_t(t^N-T^N).
+\]
+Since every component of $C$ passes through $p_0$, the inequality
+implies that none is contained in $\Delta_R$.
+For a hypersurface $\mathcal H$ containing no component of $C$, we write
+$i_p(C,\mathcal H)$ for the sum of the vanishing orders of a local equation
+of $\mathcal H$ along the normalized branches of $C$ over $p$.
+We write $\deg C$ for the number of intersections of $C$
+with a general hyperplane.  Both differences have degree $N$.
+The curve--hypersurface form of B\'ezout's theorem, together
+with the zero in \eqref{eq:d3-monomial-pairs} away from $p_0$, gives
+\[
+ i_{p_0}(C,\Delta_R)
+ \leq i_{p_0}(C,\Delta_{t^N})<N\deg C.
+\]
+B\'ezout's theorem gives total intersection number $N\deg C$
+for $C$ and $\Delta_R$, so the strict inequality leaves an
+intersection point away from $p_0$.  Since no component of $C$
+is contained in $\Delta_R$, this point is isolated in
+$C\cap\Delta_R$.  By \eqref{eq:d3-fibre-components}, $C$ meets
+the diagonal and all remaining components of $\mathcal Z(P,Q)$
+only at $p_0$.  The point is therefore outside the diagonal and
+isolated in $\mathcal Z(P,Q,R)$.
+\end{proof}
+
+\subsection{Exclusion of order three}
+
+The following lemma prepares the third coordinate when
+$m_{\boldsymbol n}=3$ and when $m_{\boldsymbol n}=2$.
+Once the initial forms of the first two coordinates define a finite map,
+we subtract polynomials
+in the first two coordinates from the third coordinate, as in
+Step~\ref{step:third-coordinate}.  On a fiber of the first two
+coordinates, each subtracted function is constant, so every difference
+of values of the third coordinate is preserved.  When the map given by
+the first two coordinates has degree greater than one, the lemma shows
+that injectivity forces this process to reach an initial form of the third
+coordinate outside the polynomial algebra generated by the first two
+initial forms.
+
+For fixed weights $(w_x,w_y)$, let $G,U\in\mathfrak m$ have initial
+forms $P,Q$ with no common zero except the origin, and put $A=\C\{G,U\}$.
+Give $A$ the filtration induced by weighted order on $B$, and
+write $\operatorname{gr}A$ for its \emph{associated graded ring}.
+We identify it with the subalgebra of $\C[x,y]$ generated by the
+initial forms of elements of $A$.
+Let $H\in B$.
+
+\begin{lemma}
+\label{lem:finite-plane-degree}
+\label{lem:filtered-escape}
+The map germ $(G,U):(\C^2,0)\to(\C^2,0)$ is finite, and its fibers
+over regular values consist of $i_0(G,U)$ distinct points.  Moreover,
+$\operatorname{gr}A=\C[P,Q]$.
+If $i_0(G,U)>1$ and $H\in A$, then $(G,U,H)$ is not
+injective.  If $H\notin A$, successive subtraction from $H$ of polynomials
+in $G,U$ that cancel the initial form of the current remainder terminates at a
+remainder whose initial form lies outside $\C[P,Q]$.
+\end{lemma}
+
+\begin{proof}
+Suppose that nonzero common zeros of $G,U$ approach the origin.
+For each such zero $(x,y)$, set $t=\max\{|x|^{1/w_x},|y|^{1/w_y}\}$.
+Rescaling to $(x/t^{w_x},y/t^{w_y})$ and taking a subsequence would
+give a nonzero common zero of $P,Q$.  Thus $(G,U)$ is
+finite by \cite[Theorem~I.1.66]{GreuelLossenShustin}.
+The substitution homomorphism $\C\{S,T\}\to B$, $F\mapsto F(G,U)$,
+makes $B$ a finitely generated module over its image $A$, so $\dim A=\dim B=2$.
+Its kernel is a prime ideal of height zero in the domain
+$\C\{S,T\}$, and is therefore zero.
+Thus $A\cong\C\{S,T\}$.  Both $A$ and $B$ are regular local rings
+of dimension two, and $G,U$ form a $B$-regular sequence.
+Hence $B$ is free over
+$A$ by \cite[Theorem~B.8.11 and Proposition~B.3.5]{GreuelLossenShustin},
+of rank $\dim_\C B/(G,U)=i_0(G,U)$.  In characteristic zero
+the fibers of $(G,U)$ over regular values have this many distinct points
+\cite[Theorem~I.1.81(2)]{GreuelLossenShustin}.
+A function in $A$ is constant on these fibers, proving that $(G,U,H)$
+is not injective when $i_0(G,U)>1$ and $H\in A$.
+
+The finite polynomial map $(P,Q)$ makes $\C[x,y]$ integral over
+$\C[P,Q]$.  Hence $\C[P,Q]$ has dimension two, and its two
+generators $P,Q$ are algebraically independent.
+Give $S,T$ weights equal to the weighted orders of $G,U$,
+respectively.  For a nonzero $F\in\C\{S,T\}$, let $F_d$
+be its initial form for these weights.  Algebraic independence gives
+$F_d(P,Q)\neq0$, so the initial form of $F(G,U)$ is precisely
+$F_d(P,Q)$.  This proves $\operatorname{gr}A=\C[P,Q]$.
+Each cancellation strictly increases the weighted order of the remainder.
+Suppose that the process did not terminate.  With
+$\mathfrak m_A=(G,U)A$, the ideal $\mathfrak m_A B=(G,U)B$
+is $\mathfrak m$-primary, so
+$\mathfrak m^c\subset\mathfrak m_A B$ for some $c\geq1$.
+Since the weighted orders of the remainders are unbounded,
+$H\in A+\mathfrak m^{cn}\subset A+\mathfrak m_A^nB$ for every
+$n$.  The class of $H$ in the finite $A$-module $B/A$
+then vanishes by the Krull intersection theorem
+\cite[Theorem~B.4.2]{GreuelLossenShustin}, contradicting $H\notin A$.
+\end{proof}
+
+Applied to $v,u$ with weights $(a,1)$, \Cref{lem:filtered-escape} supplies
+an initial form of the third coordinate of $\boldsymbol n$ outside the
+algebra generated by the initial forms of $v,u$.
+If this form is a polynomial in $x,y^a$,
+\Cref{prop:d3-cubic-collision} applies after the substitution $t=y^a$.
+Otherwise, multiplying $y$ by an $a$-th root of unity or choosing the
+points in \eqref{eq:d3-monomial-pairs} gives a collision.
+
+\begin{theorem}
+\label{thm:dthree}
+Under the hypotheses of \Cref{sec:input}, one has
+$m_{\boldsymbol n}\neq3$.
+\end{theorem}
+
+\begin{proof}
+Assume $m_{\boldsymbol n}=3$, and use the coordinates of
+\Cref{prop:d3-models}.  Put
+$\widehat P=P(x,y^a)$, $\widehat Q=Q(x,y^a)$, and denote the
+third coordinate by $w$, so $\boldsymbol n=(v,u,w)$.
+The map $(\widehat P,\widehat Q)$ is finite.  By \Cref{lem:finite-plane-degree},
+$(v,u)$ has degree $m_X=12a>1$.  Injectivity of $\boldsymbol n$ therefore implies
+$w\notin\C\{v,u\}$.  By \Cref{lem:filtered-escape}, subtracting a
+polynomial in $v,u$ from $w$ gives an initial form
+\[
+ \mathcal R=\operatorname{in}_{(a,1)}w
+ \notin\C[\widehat P,\widehat Q].
+\]
+Write the weight of $\mathcal R$ as $aN+r$, with $0\leq r<a$.  Then
+$\mathcal R=y^rS(x,y^a)$, where $S(x,t)$ is homogeneous of
+degree $N$.
+
+If $r=0$, taking initial forms with weights $(a,1)$ in
+\eqref{eq:d3-minors} and using
+\[
+ J_{x,y}\bigl(P(x,y^a),S(x,y^a)\bigr)
+ =ay^{a-1}J_{x,t}(P,S)(x,y^a)
+\]
+gives $t^5\mid J_{x,t}(P,S),J_{x,t}(Q,S)$, including when either
+Jacobian is zero.  Since $S\notin\C[P,Q]$,
+\Cref{prop:d3-cubic-collision} gives an isolated non-diagonal point
+of $\mathcal Z(P,Q,S)$.  The map
+\[
+ \rho_a:\mathbb P(a,1,a,1)\longrightarrow\mathbb P^3,
+ \qquad [x:y:X:Y]\longmapsto[x:y^a:X:Y^a]
+\]
+is well defined, since its coordinate polynomials have weighted degree $a$.
+It is finite because the corresponding extension of homogeneous
+coordinate rings adjoins $a$-th roots of $t,T$, and surjective because
+these roots exist over $\C$.  Substituting $t=y^a$
+and $T=Y^a$ in the equations defining $\mathcal Z(P,Q,S)$ gives
+$\mathcal Z(\widehat P,\widehat Q,\mathcal R)
+=\rho_a^{-1}(\mathcal Z(P,Q,S))$.  The inverse image under $\rho_a$ of the
+isolated collision is therefore nonempty and consists of isolated points.
+These points lie outside the diagonal in $\mathbb P(a,1,a,1)$, since
+$\rho_a$ maps this diagonal into the diagonal in $\mathbb P^3$.
+
+Suppose $0<r<a$, and choose a primitive $a$-th root of unity $\zeta$.
+On $(X,Y)=(x,\zeta y)$, the differences of the values of $\widehat P$
+and $\widehat Q$ vanish, and $\mathcal R(x,y)-\mathcal R(X,Y)$ is
+$(1-\zeta^r)y^rS(x,y^a)$.  If $S$ has a zero
+$[x:t]\in\mathbb P^1$ with $t\neq0$, that zero gives a collision of
+$(\widehat P,\widehat Q,\mathcal R)$ with
+$y\neq0$.  It is isolated: by \eqref{eq:d3-PQjac}, the differences
+for $\widehat P,\widehat Q$ locally define the curve $(X,Y)=(x,\zeta y)$.
+On this curve in the chart $y=1$, the difference for $\mathcal R$
+restricts to a nonzero multiple of $S(x,1)$.
+
+If $S$ has no zero $[x:t]\in\mathbb P^1$ with $t\neq0$, the nonzero polynomial
+$S(x,1)\in\C[x]$ has no zero and is therefore constant.
+Homogeneity of degree $N$ then gives $S=ct^N$, with $c\neq0$,
+allowing $N=0$.  In the chart $y=1$, take $x,X$ from
+\eqref{eq:d3-monomial-pairs} and put $Y=1$.
+The initial forms $\widehat P,\widehat Q$ agree at these distinct points by the
+calculation following \eqref{eq:d3-monomial-pairs}.  The values of
+$\mathcal R=cy^{aN+r}$ also agree because $Y=y$.
+At these points, the derivative of $\mathcal R(x,y)-\mathcal R(X,Y)$
+with respect to $Y$ is $-c(aN+r)\neq0$, and the Jacobian determinant of
+the differences for $\widehat P,\widehat Q$ with respect to $x,X$ is
+\[
+ 36x^2(1-\omega^2)\neq0\quad(E),\qquad48x\neq0\quad(H).
+\]
+Thus the common zero is isolated.
+
+In every case, $\mathcal Z(\widehat P,\widehat Q,\mathcal R)$
+has an isolated non-diagonal point.  The positive integral weights
+$(a,1)$ allow \Cref{lem:weighted-lifting} to produce collisions
+for $\boldsymbol n$, contradicting injectivity.
+\end{proof}
+\section{Exclusion of
+\texorpdfstring{$m_{\boldsymbol{n}}=2$}{m(n)=2}}
+\label{sec:dtwo}
+
+Assume $m_{\boldsymbol n}=2$ and choose the component $\Gamma_i$
+and coordinates from \Cref{prop:common-preparation}.  Then
+\[
+ \Gamma_i=\{y=0\},\qquad a_i=2,\qquad
+ v=E(x^2+c_0(y)),\qquad \ord_yc_0\geq2A_2.
+\]
+We first determine the quadratic terms of $\boldsymbol n$ in
+\Cref{prop:d2-quadratic-jet}.  These terms will allow an analytic change
+of coordinates that preserves $\Gamma_i=\{y=0\}$ and puts $v$ in the
+form stated in \Cref{lem:d2-morse}.
+Divisibility of the Jacobian minors of $\boldsymbol n$ then reduces this map to the
+form in \Cref{prop:d2-cyclic-preparation}, which
+\Cref{prop:d2-cyclic-separation} excludes.
+We apply Steps~\ref{step:root-separation} and
+\ref{step:third-coordinate} successively to refine the
+coordinates.  In the final form of \Cref{prop:d2-cyclic-preparation},
+the third coordinate must take different values at distinct points in
+each fiber of the finite map $(P,Q)$ formed by the first two coordinates.
+We find a pair violating this condition by studying a local component
+of the fiber product, with a second choice of weights when necessary.
+Put
+\[
+ A_j=\#\{p\in\mathcal C:m_{\boldsymbol n,p}=j\}\quad(j=1,2),
+ \qquad \mu_n=\{\zeta\in\C^*:\zeta^n=1\}\quad(n\geq1).
+\]
+For every $p\in\mathcal C$, the multiplicity $m_{\boldsymbol n,p}$
+is one or two, and the origin is counted by $A_2$.  Equations \eqref{eq:input-point-basis} and
+\eqref{eq:input-polar} become
+\begin{align}
+ m_X&=4A_2+A_1,& M_{\boldsymbol n}&=2A_2+A_1,&
+ \delta(V,0)&=A_2,                                  \label{eq:d2-counts}\\
+ \sum_i a_i(m_i-1)&\leq6A_2+A_1-b,&&&                 \label{eq:d2-polar}
+\end{align}
+where $b\in\{1,2\}$.
+
+\subsection{The quadratic jet}
+
+Let
+\[
+ \mathcal J_2=\operatorname{span}_{\C}
+ \{(n_1)_2,(n_2)_2,(n_3)_2\},
+\]
+where $(F)_2$ is the \emph{homogeneous quadratic part} of $F$.
+Since $(d\boldsymbol n)_0=0$, the triple
+$((n_1)_2,(n_2)_2,(n_3)_2)$ is the \emph{quadratic jet}
+of $\boldsymbol n$.
+To show that $\mathcal J_2$ is generated by the square of a linear form,
+we first prove the following two lemmas.  The first will also exclude the second numerical
+alternative in \Cref{prop:d2-second-alternative}.  Put
+\begin{equation}
+ \Phi(s,\lambda)=s^2-\lambda^2,\qquad
+ \Psi(s,\lambda)=2s^3-3s\lambda^2.
+ \label{eq:d2-cubic-pair}
+\end{equation}
+
+\begin{lemma}
+\label{lem:d2-cubic-orbit}
+If $R\in\C[s,\lambda]$ is homogeneous of degree $r\geq4$ and
+$R\notin\C[\Phi,\Psi]$, then
+$\mathcal Z(\Phi,\Psi,R)$ has an isolated point outside the diagonal.
+\end{lemma}
+
+\begin{proof}
+The identities $s^3-3\Phi s+\Psi=0$ and
+$\lambda^2=s^2-\Phi$ make the polynomial map
+$(\Phi,\Psi):\C^2\to\C^2$ finite.
+In $\mathbb P^3$, with coordinates $[s:\lambda:s':\lambda']$, set
+$D_\pm=\{s'=s,\lambda'=\pm\lambda\}$.  On the locus
+$\Phi(s,\lambda)=\Phi(s',\lambda')$, factoring
+$\Psi(s,\lambda)-\Psi(s',\lambda')$ gives
+\[
+ \mathcal Z(\Phi,\Psi)=D_+\cup D_-\cup\Gamma,
+\]
+as sets, where $\Gamma$ is defined by the equations
+\begin{equation}
+ (s')^2+ss'-2s^2+3\lambda^2=0,\qquad
+ (\lambda')^2=(s')^2-s^2+\lambda^2.                 \label{eq:d2-Gamma}
+\end{equation}
+The normalization map of $\Gamma$ is the following morphism from the
+smooth conic
+$\mathcal N=\{\rho^2=3(\alpha^2+\beta^2)\}\subset\mathbb P^2$:
+\[
+ \begin{aligned}
+ \mathcal N&\longrightarrow\Gamma,\\
+ [\rho:\alpha:\beta]&\longmapsto
+ [-(\alpha^2+2\beta^2):\rho\beta:
+   2\alpha^2+\beta^2:\rho\alpha].
+ \end{aligned}
+\]
+Indeed, the four quadratic forms defining this morphism have no common
+zero on $\mathcal N$, and their values satisfy \eqref{eq:d2-Gamma}.
+The morphism has inverse $[s'-s:\lambda':\lambda]$ away from
+$o=[1:0:1:0]$.  The point $o$ is the only point of $\Gamma$ with
+$s'=s$, and its preimages are $p_\pm=[0:\pm i:1]$.
+In particular, $\Gamma\cap(D_+\cup D_-)=\{o\}$.
+
+For $d\geq0$, write $\mathcal O_{\mathcal N}(d)$ for the restriction
+of the line bundle $\mathcal O_{\mathbb P^2}(d)$ to $\mathcal N$.
+A homogeneous form of degree $d$ restricts to a section of this line
+bundle.
+The pullback $\mathcal R$ of $R(s,\lambda)-R(s',\lambda')$ under the
+normalization map $\mathcal N\to\Gamma$ is a nonzero section of
+$\mathcal O_{\mathcal N}(2r)$.
+If it vanished identically, $R$ would agree on every ordered pair in
+a general fiber of $(\Phi,\Psi)$ having different $s$-coordinates.  Such a fiber has
+three distinct $s$-coordinates and two points above each, so $R$ would be
+constant on the whole fiber.  Constancy on general fibers and
+separability of $\C(\Phi,\Psi)\subset\C(s,\lambda)$ would give
+$R\in\C(\Phi,\Psi)$.  Finiteness makes $R$ integral over
+$\C[\Phi,\Psi]$, which is a polynomial ring and hence integrally
+closed.  Thus $R\in\C[\Phi,\Psi]$, contrary to the hypothesis.
+
+The zero divisor of a nonzero section records its zeros with their
+orders of vanishing.
+Suppose the zeros of $\mathcal R$ lie only at $p_\pm$.  Their orders sum to $4r$
+by B\'ezout's theorem for the conic and a form of degree $2r$
+\cite[Section~2.6, p.~54]{CasasAlvero}.
+Interchanging $(s,\lambda)$ and $(s',\lambda')$ exchanges $p_+$ and $p_-$, so both
+orders are $2r$.  Since the pullback of $s'-s$ is $\rho^2$, which has order two at both
+points, both $\mathcal R$ and the pullback of $(s'-s)^r$ are
+sections of $\mathcal O_{\mathcal N}(2r)$ with zero divisor
+$2r(p_++p_-)$.  Their quotient is a nowhere vanishing regular
+function on the projective conic $\mathcal N$, hence a
+nonzero constant.
+Thus $\mathcal R=c(s'-s)^r$, with $c\neq0$,
+where the right-hand side denotes the pullback to $\mathcal N$.
+Interchanging the two factors negates $\mathcal R$ and multiplies
+$(s'-s)^r$ by $(-1)^r$, so $r$ is odd.
+In the fiber $(\Phi,\Psi)=(1/3,0)$, take one
+point above each of $s=-1,0,1$.  Summing the identity
+$R(s,\lambda)-R(s',\lambda')=c(s'-s)^r$ for the three
+ordered pairs with $s$-coordinates $(-1,0)$, $(0,1)$, and $(1,-1)$
+yields $0=c(1+1-2^r)$, a contradiction.
+Thus $\mathcal R$ has a zero away from $p_\pm$.  Its image is an isolated zero
+of $R(s,\lambda)-R(s',\lambda')$ on $\Gamma$, disjoint from the other components of
+$\mathcal Z(\Phi,\Psi)$, and outside the
+diagonal $D_+$.
+\end{proof}
+
+The second lemma concerns plane sections.  For the choice of
+representatives of deformations in a Milnor ball, see
+\cite[Definition~2.2]{SteenbrinkSemicontinuity}.
+
+\begin{lemma}
+\label{lem:d2-forbidden-splitting}
+Let $(W,0)$ be a reduced plane curve germ of multiplicity four with
+two branches.  There is no one-parameter flat deformation of $(W,0)$
+represented by plane curves $W_s$ in a fixed Milnor ball such that
+$W_0$ is singular only at the origin, all singular points of $W_s$
+tend to the origin as $s\to0$, and the general fiber $W_s$, for
+sufficiently small $s\neq0$, has only unibranch singularities of
+multiplicity two and satisfies
+\begin{equation}
+ \delta(W,0)=1+\sum_{Q\in\operatorname{Sing}(W_s)}\delta(W_s,Q).
+ \label{eq:d2-forbidden-delta}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+We use the spectrum $\operatorname{Sp}$ as defined in
+\cite[(2.1)]{SteenbrinkSemicontinuity}, with spectral numbers of
+plane curve singularities in $(-1,1)$ counted with multiplicity.
+Let $F=0$ be a reduced equation for $(W,0)$ in local coordinates $(x,y)$.
+Write $F=F_4+H$,
+where $F_4$ is homogeneous of degree four and
+$H\in(x,y)^5\C\{x,y\}$.
+Put $G_t=F_4+t(x^4+y^4)$.
+Its discriminant is a nonzero polynomial in $t$, with leading
+coefficient the nonzero discriminant of $x^4+y^4$.
+Thus $G_t$ is squarefree for all sufficiently small $t\neq0$.
+For each such $t$, $G_t$ has an isolated critical point at the origin,
+while $uH$ has order at least five for every $u\in\C$.  Hence
+\cite[Corollary~I.2.18]{GreuelLossenShustin} gives
+$\mu(G_t+uH)=\mu(G_t)=9$.
+Invariance of the spectrum under deformations with constant Milnor
+number \cite[Theorem~2.8]{SteenbrinkSemicontinuity}
+therefore identifies $\operatorname{Sp}(F+t(x^4+y^4))$ with
+$\operatorname{Sp}(G_t)$.  The spectrum formula for the homogeneous polynomial $G_t$
+\cite[p.~165]{SteenbrinkSpectrum} gives
+\[
+ \operatorname{Sp}(F+t(x^4+y^4))
+ =\left\{\frac{i+j}{4}-1:1\leq i,j\leq3\right\}.
+\]
+Lower semicontinuity of the smallest spectral number
+\cite[Theorem~2.11]{SteenbrinkSemicontinuity}, applied to
+the deformation $F+t(x^4+y^4)$, yields
+$\min\operatorname{Sp}(W)\leq-1/2$.
+Spectral symmetry \cite[p.~167]{SteenbrinkSpectrum} gives
+$-\min\operatorname{Sp}(W)\geq1/2$ as another spectral number.
+These two distinct spectral numbers lie outside $(-1/2,1/2)$,
+so at most $\mu(W,0)-2$ spectral numbers lie in that interval.
+
+By \cite[Theorem~I.2.48]{GreuelLossenShustin}, each germ
+$(W_s,Q)$, with $Q\in\operatorname{Sing}(W_s)$, has an
+equation $z^2-w^{q_Q}=0$ in suitable local coordinates, with
+$q_Q\geq3$ odd by irreducibility.
+Its spectrum is
+\[
+ \left\{-\frac12+\frac j{q_Q}:1\leq j<q_Q\right\}
+ \subset(-1/2,1/2)
+ \qquad\text{\cite[p.~165]{SteenbrinkSpectrum}}.
+\]
+Under the stated assumptions on the representatives $W_s$,
+spectral semicontinuity applies to the number of spectral numbers
+in each open interval of length one
+\cite[Remark~2.10]{SteenbrinkSemicontinuity}.  Hence
+\[
+ \sum_Q\mu(W_s,Q)
+ \leq\#\bigl(\operatorname{Sp}(W)\cap(-1/2,1/2)\bigr)
+ \leq\mu(W,0)-2.
+\]
+Applying $\mu=2\delta-b+1$ to $(W,0)$ and each $(W_s,Q)$, with
+$b$ denoting the number of branches of the germ in question, and using
+\eqref{eq:d2-forbidden-delta} instead gives
+$\sum_Q\mu(W_s,Q)=2\delta(W,0)-2=\mu(W,0)-1$, a contradiction.
+\end{proof}
+
+We will also use the \emph{splitting lemma with one coordinate fixed}.
+For a holomorphic function germ $f\in\C\{x,y\}$ with
+$f_x(0)=0$ and $f_{xx}(0)\neq0$, the implicit function theorem gives
+a holomorphic germ $\xi(y)$ with $\xi(0)=0$ and $f_x(\xi(y),y)=0$.
+Taylor expansion gives
+\[
+ f(x,y)=f(\xi(y),y)+(x-\xi(y))^2U(x,y),\qquad U(0)\neq0.
+\]
+Thus the change of coordinates $(x,y)\mapsto(X,y)$, where
+$X=(x-\xi(y))\sqrt{U(x,y)}$, puts $f$ in the form $X^2+h(y)$,
+where $h(y)=f(\xi(y),y)$, while preserving $y$.  This proves the form
+of \cite[Theorem~I.2.47]{GreuelLossenShustin} that preserves the parameter $y$, as needed below.
+
+The preceding lemmas now determine $\mathcal J_2$.
+
+\begin{proposition}
+\label{prop:d2-quadratic-jet}
+There is a nonzero linear form $\ell$ such that
+$\mathcal J_2=\operatorname{span}_{\C}\{\ell^2\}$.
+\end{proposition}
+
+\begin{proof}
+If $\dim\mathcal J_2=3$, choose target coordinates so that the quadratic
+initial forms of the components of $\boldsymbol n$ are $x^2,xy,y^2$.
+Their Jacobian minors $2x^2,4xy,2y^2$ have no common factor, contradicting the
+nontrivial common divisor in \eqref{eq:input-divisor}.
+
+Suppose $\dim\mathcal J_2=2$ and all elements of $\mathcal J_2$ have a nonconstant common factor,
+so $\mathcal J_2=x\operatorname{span}_{\C}\{x,y\}$ in suitable coordinates.
+By \Cref{prop:common-preparation}, the chosen component $\Gamma_i$
+is smooth and $i_0(v,\Gamma_i)=2$.  Let $L$ be the linear initial
+form of a reduced defining function of $\Gamma_i$.  Divisibility of the
+Jacobian minors gives
+\[
+ L^{m_{\mathrm{tr}}-1}\mid J(x^2,xy)=2x^2.
+\]
+Thus $L$ is proportional to $x$.  Since the quadratic part of $v$
+is also divisible by $x$, the restriction of $v$ to $\Gamma_i$ has order
+greater than two, a contradiction.
+
+Suppose instead that the two generators of $\mathcal J_2$ have no common zero in $\mathbb P^1$.
+The ideal $I$ has no base point after the blowup at the origin, so
+$A_2=1,A_1=0,m_X=4,b=2$.  Then $M_{\boldsymbol n}=2$, and
+\Cref{prop:common-preparation} gives $m_{\mathrm{tr}}=2$.
+Hence every $m_i=2$.  Write $q_v,q_u$ for the coprime quadratic
+initial forms of $v,u$.
+
+The two branches of $V$ are smooth.  On each, $u$ has order two
+because $q_u$ does not vanish at either root of $q_v$.  The images of the two branches of $V$ under $\boldsymbol n$
+are the branches of $W$ and therefore have multiplicity two, so $W$
+has multiplicity four and two branches.
+
+The sections $W_s=X\cap\{\lambda_1=s\}$ form a one-parameter flat
+deformation of $(W,0)$ because the local ring of the irreducible surface
+$X$ at the origin is torsion-free over the discrete valuation ring
+$\C\{\lambda_1\}$ \cite[Theorem~B.8.11]{GreuelLossenShustin}.
+By \cite[Proposition~2.10 and Section~2.2]{PortillaReduction},
+the germs $(W_s,Q)$ at the nearby singular points are the transverse
+branches of $X$ along $\Sigma$, and
+\[
+ \delta(W,0)=\delta(V,0)+
+ \sum_{Q\in\operatorname{Sing}(W_s)}\delta(W_s,Q).
+\]
+Choose representatives of $W_s$ transverse to the boundary of a Milnor ball for $(W,0)$.
+All nearby singular points tend to the origin since
+$\Sigma\cap\{\lambda_1=0\}=\{0\}$.  Since $\delta(V,0)=1$ and
+every $m_i=2$, this contradicts \Cref{lem:d2-forbidden-splitting}.
+
+It remains to exclude a one-dimensional $\mathcal J_2$ with a
+squarefree generator.  The two simple zeros of this generator in $\mathbb P^1$ yield base
+points $p$ with $m_{\boldsymbol n,p}=1$, so $A_2=1,A_1\geq2,b=2$.  For the chosen component $\Gamma_i$ of the critical locus
+with $m_i=m_{\mathrm{tr}}$,
+\eqref{eq:input-knot} and \eqref{eq:d2-polar} give
+\[
+ 2(A_1+1)\leq a_i(m_{\mathrm{tr}}-1)\leq A_1+4.
+\]
+The inequalities $2(A_1+1)\leq A_1+4$ and $A_1\geq2$ give
+$A_1=2$.  \Cref{prop:common-preparation} gives $a_i=2$ and a smooth
+$\Gamma_i$.  Since $m_{\mathrm{tr}}\geq M_{\boldsymbol n}=4$,
+the displayed inequalities force $m_{\mathrm{tr}}=4$.
+Take a reduced defining function of $\Gamma_i$ as a coordinate $\lambda$.  The splitting lemma
+with $\lambda$ fixed, followed by multiplication of $\lambda$ by a unit,
+gives $v=s^2-\lambda^2=\Phi$, since the restriction of $v$ to $\lambda=0$
+has order two and the Hessian of $v$ is nondegenerate.
+
+After subtracting scalar multiples of $v$, the other two coordinate functions of $\boldsymbol n$ have order
+at least three.  Both branches of $W$ then have multiplicity at
+least three.  If both remaining coordinates had order at least
+four, each image branch would have multiplicity at least four,
+contrary to $\mult_0W=m_X=6$.
+Thus some remaining coordinate has a nonzero cubic part $H_3$.  The divisibility
+$\lambda^3\mid J_{s,\lambda}(\Phi,H_3)$ forces
+$H_3\in\operatorname{span}_{\C}\{2s^3-3s\lambda^2\}$, by comparing the coefficients of $\lambda^0,\lambda^1,\lambda^2$
+in $J_{s,\lambda}(\Phi,H_3)$.
+After a linear change of target coordinates, the homogeneous parts of
+least degree in the first two coordinate functions of $\boldsymbol n$
+are $\Phi,\Psi$, and the third coordinate has order at least four.
+The initial forms $\Phi,\Psi$ have degrees two and three and no
+common zero in $\mathbb P^1$, so their intersection multiplicity is six.
+By injectivity and \Cref{lem:filtered-escape}, subtracting a polynomial
+in the first two coordinate functions from the third gives a third
+coordinate whose initial form
+$R\notin\C[\Phi,\Psi]$ has degree at least four.
+\Cref{lem:d2-cubic-orbit,lem:weighted-lifting} contradict injectivity.
+Thus $\mathcal J_2$ is spanned by the square of a linear form.
+\end{proof}
+
+\subsection{Divisibility of the Jacobian minors and the numerical alternatives}
+
+We now refine the coordinates of \Cref{prop:common-preparation} while keeping $\Gamma_i$
+as the axis $y=0$.  Since $\mathcal J_2$ is generated by the square of
+a linear form, the splitting lemma applies to $v$ with $y$ fixed.  Divisibility of the
+Jacobian minors along $\Gamma_i$ will then give a recurrence for
+the coefficients of the coordinate functions of $\boldsymbol n$.  Put $k=2A_2-b+2$.
+
+\begin{lemma}
+\label{lem:d2-morse}
+The integer $k$ satisfies $k\geq3$.  There are local coordinates $x,y$
+such that
+\[
+ v=x^2+y^k,\qquad I(\Gamma_i)=(y).
+\]
+Here $I(\Gamma_i)$ is the ideal of functions in $B$ vanishing on $\Gamma_i$.
+\end{lemma}
+
+\begin{proof}
+Return to the coordinates of \Cref{prop:common-preparation}.
+Since $v(x,0)$ has order two, $v_{xx}(0)\neq0$.
+The splitting lemma with $y$ fixed gives $v=x^2+h(y)$ and
+preserves $\Gamma_i=\{y=0\}$.  By \Cref{prop:d2-quadratic-jet},
+the Hessian of $v$ has rank one, so $\ord_y h\geq3$.
+Reducedness of $v$ gives $h\neq0$, since $h=0$ would give
+$v=x^2$.  The Jacobian ideal of $v$ is $(x,h'(y))\subset\C\{x,y\}$,
+so $\mu(V,0)=\dim_\C\C\{y\}/(h'(y))=\ord_yh-1$, and
+\eqref{eq:d2-counts} and \eqref{eq:input-milnor} yield
+\[
+ \ord_yh=\mu(V,0)+1=2A_2-b+2=k.
+\]
+Since $h(y)/y^k$ is a unit, replacing $y$ by
+$y(h(y)/y^k)^{1/k}$ gives the required form and preserves
+$\Gamma_i=\{y=0\}$.
+\end{proof}
+
+Fix the coordinates and component of \Cref{lem:d2-morse}, so
+$a_i=2$.
+The branch formula \eqref{eq:branch-count} gives $A_1\geq2-b$.
+The inequalities $m_{\mathrm{tr}}\geq M_{\boldsymbol n}=2A_2+A_1$
+and $2(m_{\mathrm{tr}}-1)\leq6A_2+A_1-b$ give $A_1\leq k$.
+Substituting $2A_2=k+b-2$ yields
+\begin{equation}
+ 2-b\leq A_1\leq k,\qquad
+ k\leq m_{\mathrm{tr}}
+ \leq\frac{3k+2b-4+A_1}{2}\leq2k.
+ \label{eq:d2-preliminary-bounds}
+\end{equation}
+Every $F\in B$ has a unique decomposition
+\[
+ F=A_F(v,y)+xB_F(v,y),\qquad
+ B_F(v,y)=\sum_{j\geq0}b_j(v)y^j,
+\]
+with $A_F,B_F\in\C\{v,y\}$.  The summands $A_F(v,y)$ and
+$xB_F(v,y)$ are respectively its \emph{even part} and
+\emph{odd part} with respect to $x\mapsto-x$.
+Indeed, in the power series expansion of $F$, group the even powers of $x$
+and factor one $x$ from the odd powers.  The two remaining series lie in
+$\C\{x^2,y\}=\C\{v,y\}$, since $x^2=v-y^k$.
+Uniqueness follows because the even and odd powers of $x$
+cannot cancel.  Thus
+$B=\C\{v,y\}\oplus x\C\{v,y\}$ as a module over $\C\{v,y\}$.
+The points $(x,y)$ and $(-x,y)$ have the same values of $v,y$.
+The even part takes the same value at these points, and the difference
+of their $F$-values is $2xB_F(v,y)$.  For pullbacks of target coordinates,
+the Jacobian divisibility in \eqref{eq:input-divisor}
+constrains the odd part of $F$, and \eqref{eq:d2-preliminary-bounds}
+leaves at most two nonzero coefficients of $B_F$ below order $m_{\mathrm{tr}}$ in $y$.
+In derivatives such as $(A_F)_y$ and $(B_F)_y$, the variable $v$
+is held fixed.
+
+\begin{lemma}
+\label{lem:d2-recurrence}
+Let $F$ be the pullback under $\boldsymbol n$ of a target coordinate
+after a biholomorphic change of target coordinates preserving $v$.
+There are $\alpha_F,\beta_F\in\C\{v\}$, with $\alpha_F(0)=0$, such that
+\begin{equation}
+ F\equiv
+ \begin{cases}
+  \alpha_F(v)+x\beta_F(v),&m_{\mathrm{tr}}=k,\\
+  \alpha_F(v)+x(2v+y^k)\beta_F(v),&k<m_{\mathrm{tr}}\leq2k,
+ \end{cases}
+ \pmod{y^{m_{\mathrm{tr}}}}.
+ \label{eq:d2-A}
+\end{equation}
+In the first case, $\beta_F(0)=0$.
+\end{lemma}
+
+\begin{proof}
+Changes of target coordinates preserve \eqref{eq:input-divisor},
+since the transformed minors are analytic linear combinations
+of the original minors.  Hence
+\[
+ J(v,F)=2x(A_F)_y+2(v-y^k)(B_F)_y-ky^{k-1}B_F
+ \in(y^{m_{\mathrm{tr}}-1}).
+\]
+Separating even and odd powers of $x$ gives
+$(A_F)_y\in(y^{m_{\mathrm{tr}}-1})$ and
+\[
+ 2vjb_j=(2j-k)b_{j-k}\quad(1\leq j<m_{\mathrm{tr}}),
+ \qquad b_j=0\quad(j<0).
+\]
+By \eqref{eq:d2-preliminary-bounds}, $k\leq m_{\mathrm{tr}}\leq2k$,
+so all coefficients $b_j$ with
+$0\leq j<m_{\mathrm{tr}}$ vanish except possibly $b_0$ and, when
+$m_{\mathrm{tr}}>k$, $b_k$.  In the latter case the recurrence at $j=k$
+is $b_0=2vb_k$, giving the second congruence.
+Integrating $(A_F)_y\in(y^{m_{\mathrm{tr}}-1})$ with respect to $y$ gives
+$A_F\equiv\alpha_F(v)\pmod{y^{m_{\mathrm{tr}}}}$.
+Finally, $F(0)=0$ gives $\alpha_F(0)=0$, and in the first case
+$(dF)_0=0$ also gives $\beta_F(0)=0$.
+\end{proof}
+
+\Cref{lem:d2-recurrence} bounds the orders of pullbacks of target
+coordinates along the branches of $V$.  For a branch $C$ of
+$V$ with normalization parametrization $\gamma_C:(\C,0)\to(C,0)$,
+write $\nu_C(F)=\ord_t(F\circ\gamma_C)$.
+We set $\nu_C(F)=\infty$ when $F$ vanishes identically on $C$.
+
+\begin{corollary}
+\label{cor:d2-branch-orders}
+For every $F$ as in \Cref{lem:d2-recurrence} and every branch $C$ of $V$,
+\begin{equation}
+ b\nu_C(F)\geq\min\{2m_{\mathrm{tr}},3k\}.
+ \label{eq:d2-branch-orders}
+\end{equation}
+\end{corollary}
+
+\begin{proof}
+On the normalization of each branch $C$ of $V$,
+$\nu_C(y)=2/b$ and $\nu_C(x)=k/b$.
+If $m_{\mathrm{tr}}=k$, the first congruence in \eqref{eq:d2-A}
+shows that $F$ restricts to zero modulo $y^k$ on $V$, so $b\nu_C(F)\geq2k$.
+Otherwise, the second congruence shows that $F$ restricts to
+$\beta_F(0)xy^k$ modulo $y^{m_{\mathrm{tr}}}$ on $V$.
+The monomial $xy^k$ has order $3k/b$, and the remainder has order at least
+$2m_{\mathrm{tr}}/b$.
+\end{proof}
+
+We compare the orders along the branches in \eqref{eq:d2-branch-orders} with
+$i_0(v,u)=m_X$, from \eqref{eq:input-point}.
+
+\begin{proposition}
+\label{prop:d2-numerical}
+The integer $k$ is even, and
+\[
+ (A_1,m_{\mathrm{tr}})=(0,k)\qquad\text{or}\qquad
+ (A_1,m_{\mathrm{tr}})=(k,2k).
+\]
+\end{proposition}
+
+\begin{proof}
+Summing \eqref{eq:d2-branch-orders} for $F=u$ over the branches of $V$ gives
+\[
+ m_X\geq\min\{2m_{\mathrm{tr}},3k\}.
+\]
+On the other hand, \eqref{eq:d2-counts} and
+\eqref{eq:d2-preliminary-bounds} give
+\[
+ 2m_{\mathrm{tr}}\geq2M_{\boldsymbol n}=m_X+A_1,\qquad
+ m_X=2k+2b-4+A_1\leq3k.
+\]
+If $A_1>0$, then $2m_{\mathrm{tr}}>m_X$, so the lower bound
+forces $m_X=3k$.  Since $b\leq2$ and $A_1\leq k$, the equality $m_X=3k$ forces
+$b=2$ and $A_1=k$.  Now
+$2k=M_{\boldsymbol n}\leq m_{\mathrm{tr}}\leq2k$.
+
+If $A_1=0$, the bound $A_1\geq2-b$ gives $b=2$, hence $m_X=2k$.
+The lower bound for $m_X$, together with $m_{\mathrm{tr}}\geq k$,
+then forces $m_{\mathrm{tr}}=k$.
+In both cases $b=2$, so $k=2A_2$ is even.
+\end{proof}
+
+\subsection{Exclusion of the second alternative}
+
+For $(A_1,m_{\mathrm{tr}})=(k,2k)$,
+\Cref{lem:d2-recurrence} determines the initial forms of the first two
+coordinate functions.  These forms are obtained from $(\Phi,\Psi)$ in
+\eqref{eq:d2-cubic-pair} by setting $s=x$ and $\lambda=iy^{k/2}$.
+We first compare the initial form of the third coordinate at $(x,y)$ and
+$(x,\zeta y)$, where $\zeta^k=1$, and then use
+\Cref{lem:d2-cubic-orbit}.
+
+\begin{proposition}
+\label{prop:d2-second-alternative}
+The alternative $(A_1,m_{\mathrm{tr}})=(k,2k)$ is impossible.
+\end{proposition}
+
+\begin{proof}
+Write $k=2a$ and give $x,y$ weights $a,1$.
+The recurrence in \Cref{lem:d2-recurrence} gives, for the pullback $F$ of every target coordinate,
+\[
+ F\equiv\alpha_F(v)+\beta_F(v)\Theta\pmod{y^{2k}},
+ \qquad \Theta=x(2v+y^k).
+\]
+The coefficient $\beta_u(0)$ is nonzero, since otherwise $u$ would have order
+at least $2k$ on each of the two branches of $V$.
+This would give $i_0(v,u)\geq4k$, contrary to $i_0(v,u)=m_X=3k$.
+Set $U=(u-\alpha_u(v))/\beta_u(v)$ and replace the third coordinate
+$w$ by $Z=w-\alpha_w(v)-\beta_w(v)U$.  The map then has the form
+\[
+ \boldsymbol n=(G,U,Z)
+ =\bigl(v,\Theta+y^{2k}C_2,y^{2k}C_3\bigr),
+ \qquad C_2,C_3\in B.
+\]
+The initial forms of $G$ and $U$ for weights $(a,1)$ are, respectively,
+\[
+ v_0=x^2+y^k,\qquad \Theta_0=2x^3+3xy^k.
+\]
+They have only the origin as a common zero, and $i_0(G,U)=m_X=3k>1$.
+By injectivity and \Cref{lem:filtered-escape}, subtracting a polynomial
+in $G,U$ from the third coordinate gives a third coordinate whose initial form
+$R\notin\C[v_0,\Theta_0]$ has weight $\rho\geq2k=4a$.
+
+Write $\mu_k=\{\zeta\in\C:\zeta^k=1\}$ for the group of $k$th
+roots of unity.  Use $(x,y)$ and $(X,Y)$ for the two source points in the
+fiber product of $(v_0,\Theta_0)$.  For $\zeta\in\mu_k$, the graph $X=x,Y=\zeta y$
+lies in this fiber product.  Since
+$J(v_0,\Theta_0)=-3ky^{2k-1}$, the graph is the unique local component
+of this fiber product at each of its points with $y\neq0$.
+Consequently, if the polynomial
+\[
+ R(x,\zeta)-R(x,1)
+\]
+is nonzero, each of its zeros gives an isolated collision
+of $(v_0,\Theta_0,R)$ in the chart $y=1$.
+By \Cref{lem:weighted-lifting}, injectivity forces this polynomial to
+be constant for every $\zeta$.  Comparing the coefficients of
+positive powers of $x$ shows that the exponent of $y$ in each monomial
+of $R$ involving $x$ is divisible by $k$.  Hence
+\begin{equation}
+ R=U_0(x,y^k)+cy^\rho,                              \label{eq:d2-fourier}
+\end{equation}
+where $U_0\in\C[x,t]$ is homogeneous for weights $a,k$ on $x,t$, respectively.
+
+If $a\mid\rho$, substituting $s=x,\lambda=iy^a$ gives
+$v_0=\Phi(s,\lambda)$, $\Theta_0=\Psi(s,\lambda)$, and
+$R=\widehat R(s,\lambda)$, where $\widehat R$ is homogeneous
+of degree $\rho/a\geq4$.
+Since $\widehat R\notin\C[\Phi,\Psi]$,
+\Cref{lem:d2-cubic-orbit} gives an isolated collision
+of $(\Phi,\Psi,\widehat R)$.
+The map
+\[
+ \mathbb P(a,1,a,1)\longrightarrow\mathbb P^3,\qquad
+ [x:y:X:Y]\longmapsto[x:iy^a:X:iY^a]
+\]
+is well defined since its four coordinate polynomials have weighted degree $a$.
+It is finite because the corresponding extension of homogeneous coordinate rings
+adjoins $a$-th roots of the second and fourth target coordinates divided
+by $i$, and surjective because these roots exist over $\C$.
+The difference equations for
+$(v_0,\Theta_0,R)$ are pullbacks of those for $(\Phi,\Psi,\widehat R)$,
+so $\mathcal Z(v_0,\Theta_0,R)$ is the inverse image of
+$\mathcal Z(\Phi,\Psi,\widehat R)$.
+The inverse image of the isolated collision is nonempty and consists
+of isolated points outside the diagonal, so
+\Cref{lem:weighted-lifting} contradicts injectivity.
+
+If $a\nmid\rho$, homogeneity in \eqref{eq:d2-fourier} forces
+$R=cy^\rho$, with $c\neq0$.  Choose $\xi^2=-3/2$.
+The points $(\xi,1)$ and $(-\xi,1)$ have the same image under
+$(v_0,\Theta_0,R)$.  In the chart $y=1$, take the differences
+between the values of $v_0,\Theta_0,R$ at $(x,1)$ and $(X,Y)$.
+The Jacobian matrix of these differences with respect to $x,X,Y$,
+evaluated at $(x,X,Y)=(\xi,-\xi,1)$, is
+\[
+ \begin{pmatrix}
+  2\xi&2\xi&-k\\
+  -6&6&3k\xi\\
+  0&0&-c\rho
+ \end{pmatrix},
+\]
+with determinant $-24c\rho\xi\neq0$.  The collision is isolated,
+and \Cref{lem:weighted-lifting} again contradicts injectivity.
+\end{proof}
+
+\subsection{The form of the map along
+\texorpdfstring{$y=0$}{y=0}}
+
+In the remaining alternative $(A_1,m_{\mathrm{tr}})=(0,k)$,
+the congruence \eqref{eq:d2-A} gives
+$F(x,y)\equiv F(x,0)\pmod{y^k}$ for every coordinate function $F$ of $\boldsymbol n$.
+We change target coordinates to simplify the restriction of
+$\boldsymbol n$ to $y=0$ and obtain the form used in the final collision argument.
+
+\begin{proposition}
+\label{prop:d2-remaining-form}
+There are an odd integer $p\geq3$ and source and target coordinates
+in which
+\begin{equation}
+ \boldsymbol n(x,y)=
+ \bigl(x^2+y^k,x^p+y^kh_2(x,y),y^kh_3(x,y)\bigr),
+ \label{eq:d2-remaining-form}
+\end{equation}
+where $k\geq4$ is even and $h_2,h_3\in\C\{x,y\}$ satisfy
+\[
+ (h_2(0),h_3(0))\neq(0,0).
+\]
+\end{proposition}
+
+\begin{proof}
+\Cref{prop:d2-numerical,prop:d2-second-alternative} give
+$m_{\mathrm{tr}}=k\geq4$ and $m_X=2k$.
+\Cref{lem:d2-recurrence} gives
+$F(x,y)\equiv\alpha_F(v)+x\beta_F(v)\pmod{y^k}$.  Since
+$v\equiv x^2\pmod{y^k}$, it follows that
+$F(x,y)\equiv F(x,0)\pmod{y^k}$.
+
+The restriction $\gamma=\boldsymbol n|_{y=0}$ is injective and has
+first coordinate $x^2$.  Subtract from the other two coordinates of
+$\boldsymbol n$ their even parts on $y=0$, expressed as functions of the first
+coordinate $v$.  At least one of the other two coordinate functions
+restricts to a nonzero odd function on $y=0$, since $\gamma$ is injective.
+Choose as the second coordinate one whose restriction to $y=0$ has
+least order $p\geq3$, necessarily odd.  This restriction is $x^p\eta(x^2)$, with
+$\eta(0)\neq0$.  Dividing the second coordinate by $\eta$ evaluated
+at the first coordinate makes its restriction equal to $x^p$.  By minimality of $p$, the
+restriction of the third coordinate is $x^p\xi(x^2)$ for a convergent series $\xi$.
+Subtracting $\xi(v)$ times the second coordinate from the third gives
+$\gamma=(x^2,x^p,0)$.  The congruences modulo $y^k$
+are preserved under these target changes.
+The transformed coordinates therefore satisfy \eqref{eq:d2-remaining-form}.
+
+If $h_2(0)=h_3(0)=0$, the last two coordinate functions of $\boldsymbol n$ in
+\eqref{eq:d2-remaining-form} would have order greater than $k$ on
+each branch of $V$, since $\nu_C(x^p)=kp/2>k$ and
+$\nu_C(y^kh_j)>k$.  The original $u$, an analytic function of the
+new coordinates vanishing at the origin, would also have order greater than $k$
+on each branch of $V$,
+because the first coordinate vanishes on $V$.
+Then $i_0(v,u)>2k=m_X$, contrary to \eqref{eq:input-point}.
+\end{proof}
+\subsection{The coordinate \texorpdfstring{$Q=x^p+y^k\beta(y)$}{Q}
+and the weighted initial form of \texorpdfstring{$Z$}{Z}}
+
+By \Cref{prop:d2-remaining-form},
+\begin{equation}
+ \boldsymbol n=(P,Q_0,Z_0)
+ =\bigl(x^2+y^k,x^p+y^kh_2,y^kh_3\bigr),\qquad
+ (h_2(0),h_3(0))\neq(0,0),                         \label{eq:d2-cyc-start}
+\end{equation}
+where $k\geq4$ is even, $p\geq3$ is odd, and
+$h_2,h_3\in\C\{x,y\}$.  To study the fiber product of the first two
+coordinates in Step~\ref{step:third-coordinate}, we seek coordinates
+in which
+\begin{equation}
+ (P,Q,Z)=\bigl(x^2+y^k,x^p+y^k\beta(y),Z(x,y)\bigr),
+ \qquad \beta\in\C\{y\},\quad Z\in\C\{x,y\},\quad \beta(0)=c\neq0,       \label{eq:d2-cyc-prepared}
+\end{equation}
+with
+\begin{equation}
+ \operatorname{in}_{(k,p)}Z=x^N,
+ \qquad N\geq3\text{ odd}.                         \label{eq:d2-cyc-xN}
+\end{equation}
+In these coordinates, the third coordinate $Z$ must distinguish
+the points in each fiber of the finite map $(P,Q)$.  Thus any distinct
+points with equal $P,Q,Z$ values contradict injectivity, as
+in \eqref{eq:strategy-separation}.
+
+\begin{proposition}\label{prop:d2-cyclic-preparation}
+Every injective germ in \eqref{eq:d2-cyc-start} can be transformed
+by biholomorphic changes of source and target coordinates into a germ
+satisfying \eqref{eq:d2-cyc-prepared} and \eqref{eq:d2-cyc-xN}.
+\end{proposition}
+
+\begin{proof}
+\noindent\emph{Putting $Q$ in the form $x^p+y^k\beta(y)$.}
+For a suitable $\alpha\in\C$, the linear change $Q_0\mapsto Q_0+\alpha Z_0$
+gives $Q=x^p+y^kh(x,y)$ with $h(0)=c\neq0$.  For an unknown convergent
+series $\theta\in\C\{x,y\}$, set
+\[
+ A_\theta=1-2x\theta-y^k\theta^2,\qquad
+ X_\theta=x+y^k\theta,\qquad Y_\theta=yA_\theta^{1/k},
+\]
+using the $k$th root of $A_\theta$ with constant term one.  This
+substitution preserves $P$ and the ideal $(y^k)$, and fixes the axis
+$y=0$ pointwise.  Moreover,
+\[
+ Q(X_\theta,Y_\theta)=x^p+y^k\mathcal H(\theta),\qquad
+ \mathcal H(\theta)=
+ \frac{(x+y^k\theta)^p-x^p}{y^k}
+ +A_\theta h(X_\theta,Y_\theta).
+\]
+The quotient in this expression is analytic.  We seek an analytic
+function $\theta(x,y)$ for which $\mathcal H(\theta(x,y))$ depends only on $y$.
+Regard the argument of $\mathcal H$ temporarily as an independent
+variable $t$.  At $y=0$,
+\[
+ \mathcal H(x,0,t)
+ =h(x,0)+t\bigl(px^{p-1}-2xh(x,0)\bigr).
+\]
+Put $t_0=h_x(0)/(2c)$.  The point $(x,t)=(0,t_0)$ is critical
+for $\mathcal H(x,0,t)$, and its Hessian in $(x,t)$ has determinant
+$-4c^2\neq0$.  The implicit-function theorem gives an analytic
+critical point $(a(y),b(y))$ of $(x,t)\mapsto\mathcal H(x,y,t)$
+with $(a(0),b(0))=(0,t_0)$.
+Let $\beta(y)=\mathcal H(a(y),y,b(y))$ be the corresponding
+critical value, so $\beta(0)=c$.
+For each fixed $y$ near zero, the level curve
+$\mathcal H(x,y,t)=\beta(y)$ has two transverse analytic branches
+at $(a(y),b(y))$.
+We choose a branch of the form $t=\theta(x,y)$ by the following
+factorization.
+
+Write $\xi=x-a(y)$ and $\tau=t-b(y)$.  Taylor expansion at the
+critical point gives
+\[
+ \mathcal H-\beta=a_{20}\xi^2+2a_{11}\xi\tau+a_{02}\tau^2,
+ \qquad a_{11}(0)=-c,\quad a_{02}(0)=0,
+\]
+where $a_{20},a_{11},a_{02}$ are analytic in $(\xi,\tau,y)$.
+Choose the analytic square root $S$ of $a_{11}^2-a_{20}a_{02}$
+with $S(0)=-c$.  Since $a_{11}+S$ is a unit,
+\[
+ \mathcal H-\beta=
+ \bigl(a_{20}\xi+(a_{11}+S)\tau\bigr)
+ \left(\xi+\frac{a_{02}}{a_{11}+S}\tau\right).
+\]
+The first factor has nonzero $t$-derivative at $(x,y,t)=(0,0,t_0)$.
+The implicit-function theorem therefore gives an analytic
+$t=\theta(x,y)$ on which $\mathcal H=\beta(y)$.
+The derivative of $(X_\theta,Y_\theta)$ at the origin is the identity.
+This change of coordinates preserves the function $P$ and the ideal
+$(y^k)$, and fixes $y=0$ pointwise.
+
+After this substitution, the second coordinate is $x^p+y^k\beta(y)$,
+which we again denote by $Q$.
+The transformed third coordinate is $\widetilde Z_0=y^k\widetilde h_3$,
+with $\widetilde h_3\in\C\{x,y\}$.
+Writing $p=2m+1$, we have
+\begin{equation}
+ Q\equiv y^k\bigl(\beta(y)+(-1)^mxy^{k(m-1)}\bigr)\pmod P,
+ \qquad (P,Q)\C\{x,y\}=(x^2,y^k).
+ \label{eq:d2-cyc-plane-ideal}
+\end{equation}
+The factor $\beta(y)+(-1)^mxy^{k(m-1)}$ is a unit
+because its constant term is $c\neq0$.
+The quotient ring $\C\{x,y\}/(x^2,y^k)$ has $\C$-basis
+$1,y,\ldots,y^{k-1},x,xy,\ldots,xy^{k-1}$.  Thus $(P,Q)$ is finite of degree
+$2k$, by \Cref{lem:finite-plane-degree}, and injectivity implies
+$\widetilde Z_0\neq0$.  If $d=\widetilde h_3(0)\neq0$, replacing the
+third coordinate by $Q-(c/d)\widetilde Z_0$ gives initial form
+$x^p$ for weights $(k,p)$, as required.
+For the remaining case, write the transformed third coordinate as
+$Z_0=y^kh$, with $0\neq h\in(x,y)$.
+
+\smallskip
+\noindent\emph{Subtracting functions of $P,Q$.}
+Use weights $(k,p)$ on $(x,y)$, and put
+\[
+ P_{\mathrm{in}}=x^2,\quad Q_{\mathrm{in}}=x^p+cy^k,
+ \quad A=\C\{P,Q\},\quad \mathcal R=Q^2-P^p.
+\]
+The polynomial map $(P_{\mathrm{in}},Q_{\mathrm{in}})$ is finite, so
+\Cref{lem:filtered-escape} applies and
+$\operatorname{gr}A=\C[P_{\mathrm{in}},Q_{\mathrm{in}}]$.
+Identify $\C[S,T]$ with $\C[P_{\mathrm{in}},Q_{\mathrm{in}}]$ by
+$S\mapsto P_{\mathrm{in}}$, $T\mapsto Q_{\mathrm{in}}$.
+Restriction to $y=0$ is the homomorphism
+\[
+ \C[S,T]\longrightarrow\C[x],\qquad
+ S\longmapsto x^2,\quad T\longmapsto x^p.
+\]
+Division of a polynomial in $\C[S,T]$ by $T^2-S^p$, monic in $T$,
+leaves a remainder $A_0(S)+TA_1(S)$.  Its image is
+$A_0(x^2)+x^pA_1(x^2)$.
+Since $p$ is odd, the first summand has only even powers of $x$
+and the second only odd powers.  Their sum vanishes only when
+$A_0=A_1=0$.  The kernel of the restriction homomorphism is therefore
+$(Q_{\mathrm{in}}^2-P_{\mathrm{in}}^p)$ in $\C[P_{\mathrm{in}},Q_{\mathrm{in}}]$.
+Expansion of $Q^2-P^p$ gives $\mathcal R\in y^k(x,y)$ and
+$\operatorname{in}_{(k,p)}\mathcal R=Q_{\mathrm{in}}^2-P_{\mathrm{in}}^p$.
+Starting with $Z_0$, whenever the current remainder has initial form
+in $\operatorname{gr}A$, we cancel that initial form by subtracting
+$\mathcal R C(P,Q)$ for a polynomial $C(S,T)$ weighted homogeneous
+with $\deg S=2k$ and $\deg T=pk$.
+These subtractions preserve $y^k(x,y)$.
+The proof of \Cref{lem:filtered-escape} shows that they terminate unless
+$Z_0\in A$, which injectivity excludes by \eqref{eq:d2-cyc-plane-ideal}.
+The remainder obtained from $Z_0$ therefore has initial form
+\begin{equation}
+ H=y^k\Lambda\notin\C[P_{\mathrm{in}},Q_{\mathrm{in}}],            \label{eq:d2-cyc-firstH}
+\end{equation}
+where $\Lambda$ is weighted homogeneous of positive degree.
+
+In this proof, a polynomial is invariant if it is unchanged by every
+substitution $(x,y)\mapsto(x,\zeta y)$ with $\zeta\in\mu_k$.
+A monomial $x^iy^j$ is invariant under this action exactly when $k\mid j$.
+For $\zeta\in\mu_k\setminus\{1\}$, let
+$D_\zeta(s)=\Lambda(s,1)-\Lambda(s,\zeta)$.
+A nonzero root $s_0$ of a nonzero $D_\zeta$ would give an isolated
+collision of $(P_{\mathrm{in}},Q_{\mathrm{in}},H)$ at
+$(s_0,1),(s_0,\zeta)$, since locally the first two
+difference equations select $X=x$, $Y=\zeta y$, and the difference
+of the $H$ values restricts to $D_\zeta$ after setting $y=1$.
+Consequently, injectivity and \Cref{lem:weighted-lifting} imply that
+a nonzero $D_\zeta\in\C[s]$ has no root outside $s=0$.
+Factoring this polynomial over $\C$ shows that it is a nonzero
+scalar multiple of a power of $s$, allowing exponent zero.
+Thus every $D_\zeta$ is either identically zero or a monomial.
+When $\zeta$ is a primitive $k$th root of unity, distinct noninvariant monomials of
+$\Lambda$ give distinct powers of $s$, by weighted homogeneity.
+Hence either $\Lambda\in\C[x,y^k]$, or
+\begin{equation}
+ \Lambda=\Lambda_{\mathrm{inv}}+\gamma x^iy^j,
+ \quad \Lambda_{\mathrm{inv}}\in\C[x,y^k],\quad
+ \gamma\neq0,\quad i,j\geq0,\quad k\nmid j.            \label{eq:d2-cyc-mixedLambda}
+\end{equation}
+
+We exclude \eqref{eq:d2-cyc-mixedLambda} by considering pairs
+$(1,y),(-1,Y)$ with equal values of $P_{\mathrm{in}},Q_{\mathrm{in}}$.
+These equalities define the affine curve
+\[
+ C=\{(y,Y)\in\C^2:Y^k-y^k=2/c\}.
+\]
+Using $Y^k=y^k+2/c$, write
+$y^k\Lambda_{\mathrm{inv}}(1,y)-Y^k\Lambda_{\mathrm{inv}}(-1,Y)$
+as $B(y^k)$ on $C$.
+Let $\mathcal G\in\C[y,Y]$ be the polynomial on the right below.
+On $C$,
+\[
+ \mathcal G(y,Y)=H(1,y)-H(-1,Y)
+ =B(y^k)+\gamma\bigl(y^{k+j}-(-1)^iY^{k+j}\bigr),
+ \qquad B\in\C[z].
+\]
+To obtain the collision required in Step~\ref{step:third-coordinate},
+we show that $\mathcal G$ has an isolated zero on $C$.
+We prove that its homogenization has a zero on the projective closure
+of $C$ away from infinity.
+
+The projective closure of $C$,
+\[
+ \overline C=\{[y:Y:T]\in\mathbb P^2:Y^k-y^k=(2/c)T^k\},
+\]
+is smooth because the three partial derivatives of its defining
+polynomial have no common projective zero.  It is irreducible because
+distinct projective plane components would meet and produce a
+singular point.  Let $\mathcal G_{\mathrm{hom}}$ be the
+homogenization of $\mathcal G$ with respect to $T$.  The line at
+infinity is $T=0$.
+If $B\neq0$ and $k\deg B>k+j$, then
+$\mathcal G_{\mathrm{hom}}$ equals the nonzero leading coefficient
+of $B$ at every point $[1:\zeta:0]$ of $\overline C$ at infinity.
+B\'ezout's theorem \cite[Section~2.6, p.~54]{CasasAlvero}
+then gives an affine zero of $\mathcal G|_C$,
+since $\overline C$ and $V(\mathcal G_{\mathrm{hom}})$ have positive
+degrees and no intersection at infinity.
+
+Otherwise, $k\nmid j$ implies that $\mathcal G$ has total degree $k+j$.
+At infinity its homogenization has values
+$\gamma(1-(-1)^i\zeta^{k+j})$, where $\zeta^k=1$.
+These values are not all zero, since $k\nmid j$.
+Thus $\mathcal G_{\mathrm{hom}}$ does not vanish identically on
+$\overline C$, and the total intersection number of
+$V(\mathcal G_{\mathrm{hom}})$ with $\overline C$ is $k(k+j)$.
+At a zero of $\mathcal G_{\mathrm{hom}}$ on $\overline C$ at infinity,
+use $T$ as local parameter on $\overline C$ in the chart $y=1$:
+\[
+ Y=\zeta(1+2T^k/c)^{1/k},\qquad
+ \zeta^k=1,\qquad (-1)^i\zeta^{k+j}=1.
+\]
+The contribution of $\gamma\bigl(y^{k+j}-(-1)^iY^{k+j}\bigr)$
+to $\mathcal G_{\mathrm{hom}}$ in this parametrization is
+\[
+ \gamma\bigl(1-(1+2T^k/c)^{(k+j)/k}\bigr),
+\]
+which has order exactly $k$.  The contribution of $B(y^k)$ has
+$T$-exponents congruent to $j$ modulo $k$, so it cannot cancel
+the coefficient of $T^k$.  The intersection multiplicity at each of
+the $k$ points at infinity is therefore at most $k$.  Since $j>0$,
+the sum of these multiplicities satisfies
+\[
+ \sum_{a\in\overline C\cap\{T=0\}}
+ i_a(\overline C,V(\mathcal G_{\mathrm{hom}}))
+ \leq k^2<k(k+j).
+\]
+Hence an affine zero of $\mathcal G|_C$ exists in this case as well.
+
+In both cases, the restriction of $\mathcal G$ to the irreducible
+curve $C$ does not vanish identically, so its zeros are isolated.  Any such zero
+gives distinct points $(1,y),(-1,Y)$ with equal values of
+$P_{\mathrm{in}},Q_{\mathrm{in}},H$.
+Setting $x=1$ gives a finite cover of the weighted
+projective chart $x\neq0$.  On this cover, the first difference
+equation locally selects $X=-1$, and the remaining equations
+are those of $C\cap V(\mathcal G)$.  The collision is therefore
+isolated in $\mathcal Z(P_{\mathrm{in}},Q_{\mathrm{in}},H)$.
+By \Cref{lem:weighted-lifting}, this contradicts injectivity.
+Therefore $\Lambda\in\C[x,y^k]$.
+
+\smallskip
+\noindent\emph{The case $\Lambda\in\C[x,y^k]$.}
+Set $t=y^k$ and give $x,t$ degrees $1,p$.  Since
+$t=c^{-1}(Q_{\mathrm{in}}-xP_{\mathrm{in}}^{(p-1)/2})$,
+\[
+ \C[x,t]=\C[P_{\mathrm{in}},Q_{\mathrm{in}}]
+       \oplus x\C[P_{\mathrm{in}},Q_{\mathrm{in}}].
+\]
+The sum is direct because the involution
+$(x,t)\mapsto(-x,t+2x^p/c)$ fixes $P_{\mathrm{in}},Q_{\mathrm{in}}$
+and sends $x$ to $-x$.
+Write
+\[
+ H=A_{\mathrm{ev}}(P_{\mathrm{in}},Q_{\mathrm{in}})
+       +xA_{\mathrm{odd}}(P_{\mathrm{in}},Q_{\mathrm{in}}).
+\]
+By \eqref{eq:d2-cyc-firstH}, $A_{\mathrm{odd}}\neq0$.
+If $A_{\mathrm{odd}}$ is not a nonzero multiple of a power of
+$P_{\mathrm{in}}$, weighted homogeneity makes
+$A_{\mathrm{odd}}(1,q)$ a nonconstant polynomial in $q$.
+Choose a root $q_0$ and choose $y,Y$ satisfying
+\[
+ y^k=(q_0-1)/c,\qquad Y^k=(q_0+1)/c.
+\]
+The distinct points $(1,y),(-1,Y)$ have equal values of
+$P_{\mathrm{in}},Q_{\mathrm{in}},H$.
+The collision is isolated.  After setting $x=1$, the first
+difference equation fixes $X=-1$, the second gives
+$Y^k-y^k=2/c$, and the difference of the $H$ values restricts to
+the nonzero polynomial
+$2A_{\mathrm{odd}}(1,1+cy^k)$.
+There are only finitely many solutions for $y$ and $Y$, including
+when one of them is zero.  This contradicts
+\Cref{lem:weighted-lifting}.
+Therefore $A_{\mathrm{odd}}=\kappa_0P_{\mathrm{in}}^{r_0}$
+with $\kappa_0\neq0$.
+Subtracting $A_{\mathrm{ev}}(P,Q)$ from the remainder with initial form $H$
+and dividing by $\kappa_0$ gives a third coordinate $Z$ with initial form $x^N$
+for weights $(k,p)$, where $N=2r_0+1$ is odd.
+Since $H=y^k\Lambda$ and $\Lambda$ has positive weight for
+$\deg x=1$, $\deg(y^k)=p$, one has $N>p\geq3$.
+\end{proof}
+
+\subsection{A collision on a component of the fiber product}
+
+Assume that $\boldsymbol n=(P,Q,Z)$ satisfies
+\eqref{eq:d2-cyc-prepared} and \eqref{eq:d2-cyc-xN}.
+We use the weighted initial form of $Z$ to study the difference
+$Z(x,y)-Z(X,Y)$ on a local component of the fiber product of $(P,Q)$.
+As in Step~\ref{step:third-coordinate}, injectivity requires this
+difference to be nonzero at every pair of distinct points.
+If $\beta(\zeta y)=\beta(y)$ for every $\zeta\in\mu_k$,
+Weierstrass preparation forces a collision.  Otherwise the term of
+least degree in $\beta$ whose exponent is not divisible by $k$
+determines a second choice of weights,
+for which injectivity implies a polynomial identity
+that forces a collision.
+
+\begin{proposition}\label{prop:d2-cyclic-separation}
+No germ satisfying \eqref{eq:d2-cyc-prepared} and
+\eqref{eq:d2-cyc-xN} is injective.
+\end{proposition}
+
+\begin{proof}
+Suppose otherwise, and fix a primitive $k$th root of unity $\zeta$.
+Write $\beta(y)=\sum_{h\geq0}\beta_hy^h$, with $\beta_0=c$.
+
+\smallskip
+\noindent\emph{The local fiber product.}
+Put $\nu=k(p-2)$ and consider
+\[
+ P_\lambda=x^2+\lambda^\nu y^k,\qquad
+ Q_\lambda=x^p+y^k\beta(\lambda^py),\qquad
+ R_\lambda=\lambda^{-kN}Z(\lambda^kx,\lambda^py).
+\]
+These functions are analytic, with $R_0=x^N$ by
+\eqref{eq:d2-cyc-xN}, and for
+$\lambda\neq0$ the map $(P_\lambda,Q_\lambda,R_\lambda)$ is obtained
+from the original germ by invertible scalings.  Set $y=1$ and compare $(s,1),(S,z)$
+near $(0,1),(0,\zeta)$.  The equations for the fiber product of
+$(P_\lambda,Q_\lambda)$ are
+\begin{equation}
+ \begin{aligned}
+ s^2-S^2+\lambda^\nu(1-z^k)&=0,\\
+ s^p-S^p+\beta(\lambda^p)-z^k\beta(\lambda^pz)&=0.
+ \end{aligned}
+ \label{eq:d2-cyc-fiber-product}
+\end{equation}
+The derivative with respect to $z$ of the left-hand side of the second
+equation at $(s,S,z,\lambda)=(0,0,\zeta,0)$ is
+$-ck\zeta^{k-1}\neq0$.  Thus the second equation has a unique analytic
+solution
+$z=\mathfrak z(\upsilon,\lambda)$, where $\upsilon=s^p-S^p$.
+Write
+\[
+ 1-\mathfrak z(\upsilon,\lambda)^k
+ =d_0(\lambda)+\upsilon\mathcal K(\upsilon,\lambda),\qquad
+ K_p=(s^p-S^p)/(s-S).
+\]
+The quotient $K_p$ is a polynomial in $s,S$.
+The first equation becomes
+\begin{equation}
+ (s-S)\bigl(s+S+\lambda^\nu K_p\mathcal K\bigr)
+            +\lambda^\nu d_0(\lambda)=0.             \label{eq:d2-cyc-hypersurface}
+\end{equation}
+The functions $U=s-S$,
+$\Xi=s+S+\lambda^\nu K_p\mathcal K$, and $\lambda$ are analytic
+coordinates near $(s,S,\lambda)=(0,0,0)$, since their Jacobian
+determinant there is nonzero.
+On this local fiber product, let $D=R_\lambda(s,1)-R_\lambda(S,z)$.
+Since $z$ remains near $\zeta\neq1$, this neighborhood of the
+fiber product is disjoint from the diagonal.
+In particular, $U=0$ does not describe coincident source points.
+Injectivity requires the zero set of $D$ to be contained in
+the set $\lambda=0$.
+
+If $\beta(\zeta y)=\beta(y)$, uniqueness gives
+$\mathfrak z(0,\lambda)=\zeta$, so $d_0=0$.
+On the component $\Xi=0$ of the fiber product $U\Xi=0$,
+the restriction of $D$ at $\lambda=0$ is
+$D|_{\lambda=0}=2^{1-N}U^N$.  Weierstrass preparation
+\cite[Theorem~I.1.6]{GreuelLossenShustin} gives zeros of $D$ near
+$U=0$ for every small $\lambda\neq0$.  Since $z$ remains near
+$\zeta\neq1$, these are collisions of distinct points.
+We may therefore assume $\beta(\zeta y)\neq\beta(y)$.
+
+Let $j$ be the least index with $\beta_j\neq0$ and $\zeta^j\neq1$,
+and put
+\[
+ L=k+j,\qquad \chi=\zeta^j,\qquad
+ T=-\frac{\beta_j}{c}y^L,\qquad \rho=-c(x^2+T).
+\]
+Comparing coefficients in
+$\beta(q)=\mathfrak z(0,\lambda)^k\beta(q\mathfrak z(0,\lambda))$,
+where $q=\lambda^p$, gives
+$\mathfrak z(0,\lambda)=\zeta+O(q^j)$, since all terms of degree
+less than $j$ in $\beta$ are invariant under $y\mapsto\zeta y$.
+The coefficient of $q^j$ then gives
+\begin{equation}
+ d_0(\lambda)=-\frac{\beta_j}{c}(1-\chi)\lambda^{pj}
+            +O(\lambda^{p(j+1)}).                    \label{eq:d2-cyc-smoothing}
+\end{equation}
+Set $r=\nu+pj=pL-2k$, and write
+$\lambda^\nu d_0=\lambda^r\varepsilon(\lambda)$, where
+$\varepsilon(0)=-(\beta_j/c)(1-\chi)\neq0$.
+Replacing $\Xi$ by $-\Xi/\varepsilon(\lambda)$ puts the local fiber
+product in the form $U\Xi=\lambda^r$.
+Injectivity excludes zeros of $D$ over $\lambda\neq0$, while
+on $\lambda=0$ its restrictions are
+$D|_{U=0}=0$, $D|_{\Xi=0}=2^{1-N}U^N$.
+
+The two branches $U=0$ and $\Xi=0$ of the fiber $\lambda=0$
+correspond respectively to $s=S$ and $s=-S$ when $\lambda=0$.
+On the first branch, $z=\mathfrak z(0,0)=\zeta$.  On the second,
+$z=\mathfrak z(2s^p,0)$ satisfies $z^k=1+2s^p/c$ and tends to
+$\zeta$ as $s\to0$.
+The restrictions of $D$ to the two branches of $\lambda=0$,
+together with the absence of zeros when $\lambda\neq0$, determine
+its divisor of zeros on $\{U\Xi=\lambda^r\}$.  To see this, pull back by
+the finite cover
+\[
+ \pi:(\C^2,0)\longrightarrow(\{U\Xi=\lambda^r\},0),\qquad
+ (\kappa_1,\kappa_2)\longmapsto
+ (\kappa_1^r,\kappa_2^r,\kappa_1\kappa_2).
+\]
+The zeros of $\pi^*D$ lie on the coordinate axes.
+Unique factorization in $\C\{\kappa_1,\kappa_2\}$
+\cite[Theorem~I.1.16]{GreuelLossenShustin}
+and the restriction
+\[
+ (\pi^*D)|_{\kappa_2=0}=2^{1-N}\kappa_1^{rN}
+\]
+therefore give $\pi^*D=\kappa_1^{rN}\widetilde\varepsilon_D$
+with $\widetilde\varepsilon_D$ a unit.
+The quotient $\widetilde\varepsilon_D=\pi^*D/\kappa_1^{rN}$
+is invariant under
+$(\kappa_1,\kappa_2)\mapsto(\xi\kappa_1,\xi^{-1}\kappa_2)$,
+$\xi^r=1$.  A monomial $\kappa_1^a\kappa_2^b$ is invariant exactly
+when $r$ divides $a-b$.  Grouping these monomials gives
+\[
+ \C\{\kappa_1,\kappa_2\}^{\mu_r}
+ =\C\{\kappa_1^r,\kappa_2^r,\kappa_1\kappa_2\}
+ \cong\C\{U,\Xi,\lambda\}/(U\Xi-\lambda^r).
+\]
+Thus $\widetilde\varepsilon_D$ is the pullback $\pi^*\varepsilon_D$
+of a unit $\varepsilon_D$ on $\{U\Xi=\lambda^r\}$, and
+\begin{equation}
+ D=U^N\varepsilon_D,
+ \qquad \varepsilon_D\in
+ \bigl(\C\{U,\Xi,\lambda\}/(U\Xi-\lambda^r)\bigr)^*.             \label{eq:d2-cyc-hyp-descent}
+\end{equation}
+
+\smallskip
+\noindent\emph{Rescaling with weights $(L,2)$.}
+The substitutions $\lambda=\tau^2$, $s=\tau^r\widehat s$, and
+$S=\tau^r\widehat S$ give both $s^2-S^2$ and
+$\lambda^r\varepsilon(\lambda)$ in \eqref{eq:d2-cyc-hypersurface}
+a factor $\tau^{2r}$.
+Since $2k+r=pL$, the points in the original source coordinates become
+\[
+ (\tau^{pL}\widehat s,\tau^{2p}),\qquad
+ (\tau^{pL}\widehat S,\tau^{2p}z),
+\]
+where $(x,y)$ have weights $(L,2)$ and the scaling parameter is $\tau^p$.
+After division by $\tau^{2r}$, the term containing
+$s^p-S^p$ in \eqref{eq:d2-cyc-hypersurface} has the factor $\tau^{2\nu+rp-2r}=\tau^{p(p-2)L}$.
+Since $p\geq3$ and $L>0$, the exponent $p(p-2)L$ is positive,
+so this term vanishes at $\tau=0$.
+Thus \eqref{eq:d2-cyc-smoothing} gives the curve obtained at $\tau=0$
+\begin{equation}
+ \widehat S^2-\widehat s^2=(1-\chi)T_0,
+ \qquad T_0=-\beta_j/c\neq0.
+ \label{eq:d2-cyc-limit-curve}
+\end{equation}
+At each point $(u,v)$ of this curve,
+$v^2-u^2=(1-\chi)T_0\neq0$.
+Thus $u,v$ cannot both vanish, and $u\neq v$.
+After the substitutions above, the difference of the $Q_\lambda$
+values has nonzero derivative in $z$ at
+$(\widehat s,\widehat S,z,\tau)=(u,v,\zeta,0)$, while the polynomial
+$\widehat S^2-\widehat s^2-(1-\chi)T_0$ defining the limiting curve
+\eqref{eq:d2-cyc-limit-curve} has gradient $(-2u,2v)$ in
+$(\widehat s,\widehat S)$.
+Fix $\widehat s=u$ if $v\neq0$, or $\widehat S=v$ otherwise.
+The implicit-function theorem gives an analytic lift of $(u,v)$ to
+the rescaled fiber product, represented by functions
+$(\widehat s(\tau),\widehat S(\tau),z(\tau))$ satisfying the rescaled
+form of \eqref{eq:d2-cyc-fiber-product}, with initial value $(u,v,\zeta)$.
+Equation \eqref{eq:d2-cyc-hyp-descent} implies along every lift
+\begin{equation}
+ \begin{aligned}
+ &Z(\tau^{pL}\widehat s,\tau^{2p})
+   -Z(\tau^{pL}\widehat S,\tau^{2p}z)\\
+ &\qquad=\tau^{pLN}(\widehat s-\widehat S)^N(c_D+O(\tau)),
+ \qquad c_D=\varepsilon_D(0)\neq0.                  \label{eq:d2-cyc-primitiveD}
+ \end{aligned}
+\end{equation}
+The coefficient of $\tau^{pLN}$ in this difference is
+$c_D(u-v)^N\neq0$, so its order is exactly $pLN$.
+The constant $c_D=\varepsilon_D(0)$ is independent of the lift.
+
+Let $C_\zeta\subset\mathbb P(L,2,L,2)$ be the curve defined by
+$Y=\zeta y$, $\rho(x,y)=\rho(X,Y)$.
+It lies in $\mathcal Z(y^k,\rho)$, and its homogeneous coordinate
+ring, after eliminating $Y$, is
+\[
+ R=\C[x,y,X]/(X^2-x^2-(1-\chi)T).
+\]
+The ring $R$ is a domain.  Indeed, put $\delta_c=X-x$ and
+$\sigma_c=X+x$.  The polynomial defining $R$ becomes
+$\delta_c\sigma_c-(1-\chi)T(y)$ in $\C[\delta_c,y][\sigma_c]$.
+Its coefficients $\delta_c$ and $-(1-\chi)T(y)$ are coprime in
+$\C[\delta_c,y]$, since $T(y)$ is a nonzero scalar multiple of
+$y^L$.  Since the polynomial has degree one in $\sigma_c$ and its
+coefficients are coprime, Gauss's lemma implies that it is irreducible in
+$\C[\delta_c,y,\sigma_c]$.
+Thus the chart $y\neq0$ of $C_\zeta$ is dense.  Setting $y=1$ gives
+a finite cover of this chart by the curve \eqref{eq:d2-cyc-limit-curve}.
+
+Put $t=y^k$.  The terms of $\beta(y)$ whose exponents are divisible
+by $k$ sum to $\overline\beta(y^k)$, where
+$\overline\beta\in\C\{t\}$ is characterized by
+$\overline\beta(y^k)=k^{-1}\sum_{\eta\in\mu_k}\beta(\eta y)$.
+For $Q^\flat=Q-P\overline\beta(P)$, minimality of $j$ gives
+\begin{equation}
+ \operatorname{in}_{(L,2)}P=t,\qquad
+ \operatorname{in}_{(L,2)}Q^\flat=\rho.
+ \label{eq:d2-cyc-second-initial}
+\end{equation}
+Indeed, $L=k+j>k$, so $y^k$ has weight $2k<2L$, the weight of $x^2$.
+Since $p\geq3$, the term $x^p$ has weight $pL>2L$.
+The term of least degree in $y^k\beta(y)$ whose exponent is not
+divisible by $k$ is $\beta_jy^L$,
+of weight $2L$, and
+$P\overline\beta(P)-t\overline\beta(t)$ has initial form $cx^2$.
+The map $(t,\rho)$ is finite, and
+$\C\{P,Q^\flat\}=\C\{P,Q\}$.  We may therefore apply
+\Cref{lem:filtered-escape} with $\C[t,\rho]$ as the algebra generated
+by the initial forms of $P,Q^\flat$.
+
+For this application, let $H\in\C[x,y]$ and suppose
+$H(x,y)=H(X,\zeta y)$ in $R$.
+The automorphism of $R$ fixing $x,y$ and sending $X$ to $-X$ gives
+$H(X,\zeta y)=H(-X,\zeta y)$.
+The inclusion $\C[X,y]\to R$ is injective because the
+relation defining $R$ can be written as a monic equation in $x$, so
+$H$ is even in its first variable.  Write $H(x,y)=G(x^2+T,y)$
+with $G\in\C[\mathcal S,y]$.
+Since $X^2+\chi T=x^2+T$, the identity $H(x,y)=H(X,\zeta y)$ becomes
+\[
+ G(x^2+T,y)=G(x^2+T,\zeta y).
+\]
+The homomorphism
+\[
+ \C[\mathcal S,y]\longrightarrow\C[x,y],\qquad
+ \mathcal S\longmapsto x^2+T,\quad y\longmapsto y
+\]
+is injective.
+Since $\zeta$ is a primitive $k$th root of unity,
+$G\in\C[\mathcal S,y^k]$, and hence $H\in\C[\rho,t]$.
+We have proved
+\begin{equation}
+ H(x,y)=H(X,\zeta y)\text{ in }R
+ \quad\Longrightarrow\quad H\in\C[t,\rho].         \label{eq:d2-cyc-equalizer}
+\end{equation}
+
+By \eqref{eq:d2-cyc-plane-ideal}, the map $(P,Q)$ has degree $2k>1$.
+Injectivity therefore excludes $Z\in\C\{P,Q\}$.
+Thus \Cref{lem:filtered-escape}, applied to $Z$, gives a remainder
+$\widetilde Z$ with
+$H=\operatorname{in}_{(L,2)}\widetilde Z\notin\C[t,\rho]$.
+Write $\delta=\ord_{(L,2)}\widetilde Z$.
+By \eqref{eq:d2-cyc-equalizer}, the difference $H(x,y)-H(X,\zeta y)$
+is nonzero at some $(u,1),(v,\zeta)$ on the dense chart of $C_\zeta$.
+On the analytic lift of this pair the difference of the $\widetilde Z$
+values has order $p\delta$ in $\tau$.  Subtracting functions of $P,Q$
+preserves the difference of the $Z$ values on the fiber product of $(P,Q)$, so
+\eqref{eq:d2-cyc-primitiveD} gives $\delta=NL$.
+We compare the coefficients of $\tau^{pLN}$ along the analytic
+lift of every point of \eqref{eq:d2-cyc-limit-curve}.
+The polynomials $H(x,y)-H(X,\zeta y)$ and $c_D(x-X)^N$ both have
+weight $NL$ for weights $(L,2,L,2)$, so equality for $y=1$ extends to
+the dense chart $y\neq0$ and hence to all of $C_\zeta$:
+\begin{equation}
+ H(x,y)-H(X,\zeta y)=c_D(x-X)^N\quad\text{on }C_\zeta.             \label{eq:d2-cyc-Hidentity2}
+\end{equation}
+
+\smallskip
+\noindent\emph{The final collision.}
+Only the odd part of $H$ in $x$ can distinguish $(x,y)$ from $(-x,y)$.
+Since $H$ has weight $NL$ and $N$ is odd by
+\eqref{eq:d2-cyc-xN}, every odd power $x^i$
+in $H$ has $y$-exponent $L(N-i)/2$, a multiple of $L$.
+Thus its odd part can be written
+\[
+ \frac{H(x,y)-H(-x,y)}2=A_N(x,T),
+ \qquad \deg x=1,\quad\deg T=2,\quad\deg A_N=N.
+\]
+The simultaneous sign change $(x,X)\mapsto(-x,-X)$ preserves
+$C_\zeta$ and negates the right-hand side of
+\eqref{eq:d2-cyc-Hidentity2}.  Subtracting the transformed identity
+from the original gives
+\begin{equation}
+ A_N(x,T)-A_N(X,\chi T)=c_D(x-X)^N
+ \quad\text{when }X^2-x^2=(1-\chi)T.
+ \label{eq:d2-cyc-Aidentity}
+\end{equation}
+Setting $X=-x$ and $T=0$ gives
+\[
+ A_N(x,0)=2^{N-1}c_Dx^N.
+\]
+The order $N$ of $c_D(x-X)^N$ along $X=x$ also constrains the partial
+derivatives of $A_N$ at $T=0$.  Substitute
+\[
+ X=x+h,\qquad T=\frac{2xh+h^2}{1-\chi}
+\]
+and differentiate \eqref{eq:d2-cyc-Aidentity} at $h=0$.
+Since $N\geq3$, the derivative of its right-hand side is zero, so
+\[
+ 2x\,\partial_TA_N(x,0)-\partial_xA_N(x,0)=0,
+ \qquad
+ \partial_TA_N(x,0)=2^{N-2}Nc_Dx^{N-2}.
+\]
+For $T_0=-\beta_j/c\neq0$, the odd polynomial $A_N(x,T_0)$
+therefore has nonzero terms of degrees $N$ and $N-2$.  Dividing by its
+lowest power of $x$ leaves a polynomial of positive degree with nonzero
+constant term, hence a nonzero root $x_0$.
+The initial forms in \eqref{eq:d2-cyc-second-initial} take the same values
+at $(x_0,1),(-x_0,1)$, and the difference of the $H$ values
+is $2A_N(x_0,T_0)=0$.
+After setting $y=1$, the collision is isolated, since the first difference
+equation for $(t,\rho,H)$ fixes $Y=1$, the second fixes $X=-x$ near $x_0\neq0$,
+and the difference of the $H$ values restricts to the nonzero polynomial
+$2A_N(x,T_0)$.
+This contradicts \Cref{lem:weighted-lifting}.
+\end{proof}
+
+\begin{theorem}
+\label{thm:dtwo}
+Under the hypotheses of \Cref{sec:input}, one has
+$m_{\boldsymbol{n}}\neq2$.
+\end{theorem}
+
+\begin{proof}
+\Cref{prop:d2-remaining-form} reduces the case
+$m_{\boldsymbol{n}}=2$ to
+\eqref{eq:d2-cyc-start}.  \Cref{prop:d2-cyclic-preparation}
+gives \eqref{eq:d2-cyc-prepared} and \eqref{eq:d2-cyc-xN}, which
+\Cref{prop:d2-cyclic-separation} excludes.
+\end{proof}
+
+\begin{proof}[Proof of \Cref{thm:main}]
+If $(d\boldsymbol{n})_0=0$, the reduction theorem
+\cite[Theorem~1.1]{PortillaReduction} gives
+$m_{\boldsymbol{n}}\in\{2,3,4\}$.  \Cref{thm:dfour} excludes
+four.  \Cref{thm:dthree,thm:dtwo} exclude three and
+two, respectively.
+\end{proof}
+
+\printbibliography
+
+\end{document}
